@@ -20,15 +20,15 @@ public class TestConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        String date1 = "1999-08-30";
-        String date2 = "1988-09-24";
-
-        Date datef1 = Date.valueOf(date1);
-        Date datef2 = Date.valueOf(date2);
-
-        Pacientes pc1 = new Pacientes(null, "Fabricio", "da Silva", datef1, "Cartão Crédito", "Presencial", 180.00, 3, 180.00);
-        Pacientes pc2 = new Pacientes(null, "Marcio", "Rodrigues", datef2, "Cartão Débito", "Online", 180.00, 2, 360.00);
-
-        pacientesRepository.saveAll(Arrays.asList(pc1, pc2));
+//        String date1 = "1999-08-30";
+//        String date2 = "1988-09-24";
+//
+//        Date datef1 = Date.valueOf(date1);
+//        Date datef2 = Date.valueOf(date2);
+//
+//        Pacientes pc1 = new Pacientes(null, "Fabricio", "da Silva", datef1, "Cartão Crédito", "Presencial", 180.00, 3, 180.00);
+//        Pacientes pc2 = new Pacientes(null, "Marcio", "Rodrigues", datef2, "Cartão Débito", "Online", 180.00, 2, 360.00);
+//
+//        pacientesRepository.saveAll(Arrays.asList(pc1, pc2));
     }
 }

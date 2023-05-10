@@ -8,15 +8,17 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
+
 public interface PacientesRepository extends JpaRepository<Pacientes, Integer> {
 
-    @Query(value = "select p.nomePaciente from Pacientes p where p.nomePaciente like '%:nomePaciente'")
-    List<Pacientes> findPacientesByName(@Param("nomePaciente") String nome);
+    @Query(value = "select p.nomePaciente from Pacientes p where lower(p.nomePaciente) like %:nomePaciente%")
+    List<String> searchByName(@Param("nomePaciente") String nomePaciente);
 
-    @Query(value = "select p.sobrenomePaciente from Pacientes p where p.sobrenomePaciente like '%:sobrenome'")
-    List<Pacientes> findBySobrenomePaciente(@Param("sobrenome") String sobrenome);
+    @Query(value = "select p.sobrenomePaciente from Pacientes p where p.sobrenomePaciente like '%:sobrenome%'")
+    List<String> searchByLastname(@Param("sobrenome") String sobrenome);
 
 //    @Query(value = "select p.idPaciente from Pacientes p where p.idPaciente ")
 //    List<Pacientes> deletePacientesByIdPaciente();

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -14,11 +15,11 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-public class Login {
+public class Login implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_Sequence")
-    @SequenceGenerator(name = "id_Sequence", sequenceName = "ID_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idLogin;
     @Column(nullable = false)
     private String nomeUsuario;

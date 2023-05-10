@@ -8,7 +8,5 @@ public class PersonalFinancialManagementJonathanGalassiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PersonalFinancialManagementJonathanGalassiApplication.class, args);
-		System.out.println("Hello");
 	}
-
 }

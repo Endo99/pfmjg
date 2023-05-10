@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -13,12 +15,10 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
-@Data
 public class Pacientes {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_Sequence")
-    @SequenceGenerator(name = "id_Sequence", sequenceName = "ID_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idPaciente")
     //@Column(length = 40) // Colocar o tamanho da coluna;
     private Long idPaciente;
 
@@ -54,4 +54,17 @@ public class Pacientes {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+//    public Pacientes(long idPaciente, String nomePaciente, String sobrenomePaciente
+//                    , Date dataDeNascimentoPaciente, String formaDePagamento, String tipoDeConsulta
+//                    , double valorDaConsulta, Integer mesesAcompanhado, double quantiaPaga){
+//        this.idPaciente = idPaciente;
+//        this.nomePaciente = nomePaciente;
+//        this.sobrenomePaciente = sobrenomePaciente;
+//        this.dataDeNascimentoPaciente = dataDeNascimentoPaciente;
+//        this.formaDePagamento = formaDePagamento;
+//        this.tipoDeConsulta = tipoDeConsulta;
+//        this.valorDaConsulta = valorDaConsulta;
+//        this.mesesAcompanhado = mesesAcompanhado;
+//        this.quantiaPaga = quantiaPaga;
 }
