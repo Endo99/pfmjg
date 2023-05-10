@@ -35,13 +35,33 @@ public class PacientesServices {
         return  pacientesRepository.searchByName(nomePaciente);
     }
 
-    public Pacientes insert(Pacientes pacientes) {
+    public Pacientes insertPaciente(Pacientes pacientes) {
         return pacientesRepository.save(pacientes);
     }
 
-//    public Pacientes deleteById(Integer id) {
-//        return pacientesRepository.delete(id);
-//    }
+    public void deleteById(Integer id) {
+        pacientesRepository.deleteById(id);
+    }
+
+    public Pacientes update(Integer id, Pacientes pacientes) {
+        Pacientes entity = pacientesRepository.getReferenceById(id);
+        updateData(entity, pacientes);
+        return pacientesRepository.save(entity);
+    }
+
+    private void updateData(Pacientes entity, Pacientes pacientes) {
+        entity.setNomePaciente(pacientes.getNomePaciente());
+        entity.setSobrenomePaciente(pacientes.getSobrenomePaciente());
+        entity.setDataNascimentoPaciente(pacientes.getDataNascimentoPaciente());
+        entity.setMesesAcompanhado(pacientes.getMesesAcompanhado());
+        entity.setQuantiaPaga(pacientes.getQuantiaPaga());
+        entity.setFormaPagamento(pacientes.getFormaPagamento());
+        entity.setTipoConsulta(pacientes.getTipoConsulta());
+        entity.setCidade(pacientes.getCidade());
+        entity.setTelefone(pacientes.getTelefone());
+        entity.setEstado(pacientes.getEstado());
+        entity.setStatusPagamento(pacientes.getStatusPagamento());
+    }
 
 //    @PostMapping("/cadastrar")
 //    @Transactional

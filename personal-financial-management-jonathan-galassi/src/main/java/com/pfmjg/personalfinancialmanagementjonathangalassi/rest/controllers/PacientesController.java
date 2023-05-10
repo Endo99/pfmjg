@@ -2,6 +2,7 @@ package com.pfmjg.personalfinancialmanagementjonathangalassi.rest.controllers;
 
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Pacientes;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.services.PacientesServices;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,10 +30,9 @@ public class PacientesController  {
         return ResponseEntity.ok().body(obj);
     }
 
-
     @PostMapping(value = "/cadastrar-paciente")
-    public ResponseEntity<Pacientes> insert(@RequestBody Pacientes pac) {
-        pac = pacientesServices.insert(pac);
+    public ResponseEntity<Pacientes> insertPaciente(@RequestBody Pacientes pac) {
+        pac = pacientesServices.insertPaciente(pac);
         return ResponseEntity.ok().body(pac);
     }
 
@@ -43,6 +43,12 @@ public class PacientesController  {
         }
         List<String> pac = pacientesServices.searchByName(nomePaciente);
         return new ResponseEntity<List<String>>(pac, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(value = "/deletar-paciente-{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
+        pacientesServices.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
 

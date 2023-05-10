@@ -20,7 +20,7 @@ public class Pacientes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idPaciente")
     //@Column(length = 40) // Colocar o tamanho da coluna;
-    private Long idPaciente;
+    private Integer idPaciente;
 
     @Column(length = 300)
     private String nomePaciente;
@@ -28,15 +28,22 @@ public class Pacientes {
     @Column(length = 300)
     private String sobrenomePaciente;
 
-    private Date dataDeNascimentoPaciente;
+    private Date dataNascimentoPaciente;
 
-    @Column(length = 300)
-    private String formaDePagamento;
+    private String cidade;
 
-    @Column(length = 300)
-    private String tipoDeConsulta;
+    @Column(length = 2)
+    private char estado;
 
-    private double valorDaConsulta;
+    private int telefone;
+    private String statusPagamento;
+    @Column(length = 7)
+    private char formaPagamento;
+
+    @Column(length = 10)
+    private char tipoConsulta;
+
+    private double valorConsulta;
 
     private Integer mesesAcompanhado;
 
