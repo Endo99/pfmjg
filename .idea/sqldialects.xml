@@ -2,7 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/personal-financial-management-jonathan-galassi/src/main/java/com/pfmjg/personalfinancialmanagementjonathangalassi/domain/dao/impl/PacientesDaoJDBC.java" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/personal-financial-management-jonathan-galassi/src/main/java/com/pfmjg/personalfinancialmanagementjonathangalassi/repository/PacientesRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/personal-financial-management-jonathan-galassi/src/main/java/com/pfmjg/personalfinancialmanagementjonathangalassi/repository/PacienteRepository.java" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/personal-financial-management-jonathan-galassi/src/main/resources/pfmjg.sql" dialect="MySQL" />
   </component>
 </project>

@@ -1,8 +1,7 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.rest.controllers;
 
-import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Pacientes;
-import com.pfmjg.personalfinancialmanagementjonathangalassi.services.PacientesServices;
-import jakarta.persistence.criteria.CriteriaBuilder;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Paciente;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.services.PacienteServices;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,25 +13,25 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/pacientes")
 @Slf4j
-public class PacientesController  {
+public class PacienteController {
     @Autowired
-    private PacientesServices pacientesServices;
+    private PacienteServices pacienteServices;
 
     @GetMapping
-    public ResponseEntity<List<Pacientes>> findAll() {
-        List<Pacientes> pacientesList = pacientesServices.findAll();
-        return ResponseEntity.ok().body(pacientesList);
+    public ResponseEntity<List<Paciente>> findAll() {
+        List<Paciente> pacienteList = pacienteServices.findAll();
+        return ResponseEntity.ok().body(pacienteList);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Pacientes> finById(@PathVariable Integer id) {
-        Pacientes obj = pacientesServices.findbyId(id);
+    public ResponseEntity<Paciente> finById(@PathVariable Integer id) {
+        Paciente obj = pacienteServices.findbyId(id);
         return ResponseEntity.ok().body(obj);
     }
 
     @PostMapping(value = "/cadastrar-paciente")
-    public ResponseEntity<Pacientes> insertPaciente(@RequestBody Pacientes pac) {
-        pac = pacientesServices.insertPaciente(pac);
+    public ResponseEntity<Paciente> insertPaciente(@RequestBody Paciente pac) {
+        pac = pacienteServices.insertPaciente(pac);
         return ResponseEntity.ok().body(pac);
     }
 
@@ -41,15 +40,24 @@ public class PacientesController  {
         if (nomePaciente == null || nomePaciente.trim().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        List<String> pac = pacientesServices.searchByName(nomePaciente);
+        List<String> pac = pacienteServices.searchByName(nomePaciente);
         return new ResponseEntity<List<String>>(pac, HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/editar-paciente-{id}")
+    public ResponseEntity<Paciente> updatePaciente(@PathVariable Integer id, @RequestBody Paciente pac) {
+
+        pac = pacienteServices.updatePaciente(id, pac);
+
+        return new ResponseEntity<Paciente>(pac, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/deletar-paciente-{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
-        pacientesServices.deleteById(id);
+        pacienteServices.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
 
 
 

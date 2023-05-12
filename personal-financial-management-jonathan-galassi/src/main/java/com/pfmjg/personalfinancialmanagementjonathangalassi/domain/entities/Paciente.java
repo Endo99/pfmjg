@@ -1,11 +1,10 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -15,46 +14,60 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
-public class Pacientes {
+public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idPaciente")
     //@Column(length = 40) // Colocar o tamanho da coluna;
     private Integer idPaciente;
 
+    @NotNull
     @Column(length = 300)
     private String nomePaciente;
 
     @Column(length = 300)
+    @NotNull
     private String sobrenomePaciente;
 
+    @NotNull
     private Date dataNascimentoPaciente;
 
+    private Integer idadePaciente;
+
+    @NotNull
     private String cidade;
 
-    @Column(length = 2)
-    private char estado;
+    @Column(length = 3)
+    @NotNull
+    private char[] estado;
 
-    private int telefone;
+    @Column(length = 20)
+    @NotNull
+    private String telefone;
+
+    @NotNull
     private String statusPagamento;
-    @Column(length = 7)
-    private char formaPagamento;
-
     @Column(length = 10)
-    private char tipoConsulta;
+    private char[] formaPagamento;
 
+    @NotNull
+    @Column(length = 10)
+    private char[] tipoConsulta;
+
+    @NotNull
     private double valorConsulta;
 
     private Integer mesesAcompanhado;
 
+    @NotNull
     private double quantiaPaga;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Pacientes pacientes = (Pacientes) o;
-        return getIdPaciente() != null && Objects.equals(getIdPaciente(), pacientes.getIdPaciente());
+        Paciente paciente = (Paciente) o;
+        return getIdPaciente() != null && Objects.equals(getIdPaciente(), paciente.getIdPaciente());
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dao;
 
-import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Pacientes;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Paciente;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;
@@ -9,13 +9,13 @@ import java.util.List;
 @RequestMapping("/paciente")
 public interface PacientesDao {
 
-    void insert(Pacientes obj);
-    void update(Pacientes obj);
-    void deleteById(Pacientes obj);
-    Pacientes findById(Integer obj);
-    Pacientes findByName(String obj);
-    Pacientes findByBirthday(Date obj);
+    void insert(Paciente obj);
+    void update(Paciente obj);
+    void deleteById(Paciente obj);
+    Paciente findById(Integer obj);
+    Paciente findByName(String obj);
+    Paciente findByBirthday(Date obj);
 
-    List<Pacientes> findAllById();
-    List<Pacientes>  findAllByName();
+    List<Paciente> findAllById();
+    List<Paciente>  findAllByName();
 }

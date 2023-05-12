@@ -1,11 +1,9 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dao.impl;
 
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dao.PacientesDao;
-import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Pacientes;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Paciente;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
 
@@ -19,21 +17,21 @@ public class PacientesDaoJDBC  implements PacientesDao {
 
 
     @Override
-    public void insert(Pacientes obj) {
+    public void insert(Paciente obj) {
     }
 
     @Override
-    public void update(Pacientes obj) {
-
-    }
-
-    @Override
-    public void deleteById(Pacientes obj) {
+    public void update(Paciente obj) {
 
     }
 
     @Override
-    public Pacientes findById(Integer obj) {
+    public void deleteById(Paciente obj) {
+
+    }
+
+    @Override
+    public Paciente findById(Integer obj) {
 //        PreparedStatement st = null;
 //        ResultSet rs = null;
 //
@@ -46,22 +44,22 @@ public class PacientesDaoJDBC  implements PacientesDao {
     }
 
     @Override
-    public Pacientes findByName(String obj) {
+    public Paciente findByName(String obj) {
         return null;
     }
 
     @Override
-    public Pacientes findByBirthday(Date obj) {
+    public Paciente findByBirthday(Date obj) {
         return null;
     }
 
     @Override
-    public List<Pacientes> findAllById() {
+    public List<Paciente> findAllById() {
         return null;
     }
 
     @Override
-    public List<Pacientes> findAllByName() {
+    public List<Paciente> findAllByName() {
         return null;
     }
 }
