@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.lang.annotation.Target;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +21,9 @@ public class PacienteServices {
 
     }
 
+    public boolean verificarId(Integer id) {
+        return pacienteRepository.existsById(id);
+    }
 
     public List<Paciente> findAll() {
         return pacienteRepository.findAll();
@@ -35,8 +40,27 @@ public class PacienteServices {
     }
 
     public Paciente insertPaciente(Paciente paciente) {
+
+        System.out.println("Valor recebido para o campo idPaciente: " + paciente.getIdPaciente());
+        System.out.println("Valor recebido para o campo nomePaciente: " + paciente.getNomePaciente());
+        System.out.println("Valor recebido para o campo sobrenomePaciente: " + paciente.getSobrenomePaciente());
+        System.out.println("Valor recebido para o campo idadePaciente: " + paciente.getIdadePaciente());
+        System.out.println("Valor recebido para o campo dataPaciente: " + paciente.getDataNascimentoPaciente());
+        System.out.println("Valor recebido para o campo cidade: " + paciente.getCidade());
+        System.out.println("Valor recebido para o campo estado: " + paciente.getEstado());
+        System.out.println("Valor recebido para o campo status: " + paciente.getStatusPagamento());
+        System.out.println("Valor recebido para o campo consulta: " + paciente.getTipoConsulta());
+        System.out.println("Valor recebido para o campo meses: " + paciente.getMesesAcompanhado());
+        System.out.println("Valor recebido para o campo telefone: " + paciente.getTelefone());
+        System.out.println("Valor recebido para o campo quantiaPaga: " + paciente.getQuantiaPaga());
+        System.out.println("Valor recebido para o campo formaPagamento: " + paciente.getFormaPagamento());
+        System.out.println("Valor recebido para o campo valorConsulta: " + paciente.getValorConsulta());
+
+        if (verificarId(paciente.getIdPaciente())) {
+            throw new IllegalArgumentException("O ID já existe");
+        }
         Paciente existPaciente = pacienteRepository.findByNomePacienteAndAndSobrenomePacienteAndDataNascimentoPaciente(paciente.getNomePaciente(),
-                paciente.getSobrenomePaciente(), paciente.getDataNascimentoPaciente());
+                    paciente.getSobrenomePaciente(), paciente.getDataNascimentoPaciente());
         if (existPaciente != null) {
             throw new DataIntegrityViolationException("Já existe esse usuário");
         }
@@ -69,6 +93,9 @@ public class PacienteServices {
         entity.setIdadePaciente(paciente.getIdadePaciente());
     }
 
+    public List<Integer> getAllPacienteIds() {
+        return pacienteRepository.findAllId();
+    }
 //    @PostMapping("/cadastrar")
 //    @Transactional
 //    @ResponseBody

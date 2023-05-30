@@ -16,7 +16,7 @@ import java.util.List;
 public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 
     // Buscando por nome em qualquer posição.
-    @Query("SELECT p.nomePaciente, p.sobrenomePaciente FROM Paciente p WHERE lower(p.nomePaciente) LIKE %:nomePaciente% OR lower(p.sobrenomePaciente) LIKE %:nomePaciente%")
+    @Query("SELECT CONCAT(p.nomePaciente, ' ', p.sobrenomePaciente) as NomeCompleto FROM Paciente p WHERE lower(p.nomePaciente) LIKE %:nomePaciente% OR lower(p.sobrenomePaciente) LIKE %:nomePaciente%")
     List<String> searchByName(@Param("nomePaciente") String nomePaciente);
 
     @Query(value = "select p.sobrenomePaciente from Paciente p where p.sobrenomePaciente like %:sobrenome%")
@@ -25,7 +25,13 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
     Paciente findByNomePacienteAndAndSobrenomePacienteAndDataNascimentoPaciente(String nomePaciente, String sobrenome, Date dataNascimento);
 
 
-//    @Query(value = "select p.nomePaciente, p.sobrenomePaciente, concat(p.nomePaciente, ' ', p.sobrenomePaciente) as Nome from Pacientes p where lower(p.nomePaciente) or lower(p.sobrenomePaciente) like lower('%:nomePaciente%') or lower('%:sobrenomePaciente%')")
+    @Query(value = "select p.idPaciente from Paciente p")
+    List<Integer> findAllId();
+
+    @Override
+    boolean existsById(Integer integer);
+
+    //    @Query(value = "select p.nomePaciente, p.sobrenomePaciente, concat(p.nomePaciente, ' ', p.sobrenomePaciente) as Nome from Pacientes p where lower(p.nomePaciente) or lower(p.sobrenomePaciente) like lower('%:nomePaciente%') or lower('%:sobrenomePaciente%')")
 //    List<String> searchByNameAndLastname(@Param("nomePaciente") String nomePaciente, @Param("sobrenomePaciente") String sobrenomePaciente);
 
 //    @Query(value = "select p.idPaciente from Pacientes p where p.idPaciente = :idPaciente ")

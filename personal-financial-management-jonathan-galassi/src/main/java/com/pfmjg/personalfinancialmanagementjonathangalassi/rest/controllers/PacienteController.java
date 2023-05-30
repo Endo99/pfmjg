@@ -2,6 +2,7 @@ package com.pfmjg.personalfinancialmanagementjonathangalassi.rest.controllers;
 
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Paciente;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.services.PacienteServices;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,15 +10,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/pacientes")
+@CrossOrigin(origins = "http://localhost:4200")
+
 @Slf4j
 public class PacienteController {
     @Autowired
     private PacienteServices pacienteServices;
 
-    @GetMapping
+    @GetMapping(value = "/listar")
     public ResponseEntity<List<Paciente>> findAll() {
         List<Paciente> pacienteList = pacienteServices.findAll();
         return ResponseEntity.ok().body(pacienteList);
@@ -30,7 +34,7 @@ public class PacienteController {
     }
 
     @PostMapping(value = "/cadastrar-paciente")
-    public ResponseEntity<Paciente> insertPaciente(@RequestBody Paciente pac) {
+    public ResponseEntity<Paciente> insertPaciente(@RequestBody @Valid Paciente pac) {
         pac = pacienteServices.insertPaciente(pac);
         return ResponseEntity.ok().body(pac);
     }
@@ -58,7 +62,12 @@ public class PacienteController {
         return ResponseEntity.noContent().build();
     }
 
-
-
+    @GetMapping("/ids")
+    public List<Integer> getAllPacienteIds() {
+        List<Paciente> pacientes = pacienteServices.findAll();
+        return pacientes.stream()
+                .map(Paciente::getIdPaciente)
+                .collect(Collectors.toList());
+    }
 
 }

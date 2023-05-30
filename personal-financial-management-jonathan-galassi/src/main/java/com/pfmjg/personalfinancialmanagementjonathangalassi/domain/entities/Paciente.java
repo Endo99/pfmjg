@@ -39,7 +39,7 @@ public class Paciente {
 
     @Column(length = 3)
     @NotNull
-    private char[] estado;
+    private String estado;
 
     @Column(length = 20)
     @NotNull
@@ -48,11 +48,11 @@ public class Paciente {
     @NotNull
     private String statusPagamento;
     @Column(length = 10)
-    private char[] formaPagamento;
+    private String formaPagamento;
 
     @NotNull
     @Column(length = 10)
-    private char[] tipoConsulta;
+    private String tipoConsulta;
 
     @NotNull
     private double valorConsulta;
