@@ -48,7 +48,7 @@ public class PacienteController {
         return new ResponseEntity<List<String>>(pac, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/editar-paciente-{id}")
+    @PutMapping(value = "/editar-paciente/{id}")
     public ResponseEntity<Paciente> updatePaciente(@PathVariable Integer id, @RequestBody Paciente pac) {
 
         pac = pacienteServices.updatePaciente(id, pac);
@@ -56,7 +56,7 @@ public class PacienteController {
         return new ResponseEntity<Paciente>(pac, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/deletar-paciente-{id}")
+    @DeleteMapping(value = "/deletar-paciente/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
         pacienteServices.deleteById(id);
         return ResponseEntity.noContent().build();

@@ -54,13 +54,8 @@ public class Paciente {
     @Column(length = 10)
     private String tipoConsulta;
 
-    @NotNull
-    private double valorConsulta;
-
     private Integer mesesAcompanhado;
 
-    @NotNull
-    private double quantiaPaga;
 
     @Override
     public boolean equals(Object o) {
