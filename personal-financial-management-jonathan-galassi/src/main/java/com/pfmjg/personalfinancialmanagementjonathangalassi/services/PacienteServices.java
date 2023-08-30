@@ -1,5 +1,6 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.services;
 
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Consulta;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Paciente;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,25 +75,15 @@ public class PacienteServices {
 
     public Paciente updatePaciente(Integer id, Paciente paciente) {
 
-        System.out.println("Valor recebido para o campo idPaciente: " + paciente.getIdPaciente());
-        System.out.println("Valor recebido para o campo nomePaciente: " + paciente.getNomePaciente());
-        System.out.println("Valor recebido para o campo sobrenomePaciente: " + paciente.getSobrenomePaciente());
-        System.out.println("Valor recebido para o campo idadePaciente: " + paciente.getIdadePaciente());
-        System.out.println("Valor recebido para o campo dataPaciente: " + paciente.getDataNascimentoPaciente());
-        System.out.println("Valor recebido para o campo cidade: " + paciente.getCidade());
-        System.out.println("Valor recebido para o campo estado: " + paciente.getEstado());
-        System.out.println("Valor recebido para o campo status: " + paciente.getStatusPagamento());
-        System.out.println("Valor recebido para o campo consulta: " + paciente.getTipoConsulta());
-        System.out.println("Valor recebido para o campo meses: " + paciente.getMesesAcompanhado());
-        System.out.println("Valor recebido para o campo telefone: " + paciente.getTelefone());
-        System.out.println("Valor recebido para o campo formaPagamento: " + paciente.getFormaPagamento());
-
         Paciente entity = pacienteRepository.getReferenceById(id);
         updateData(entity, paciente);
         return pacienteRepository.save(entity);
     }
 
     private void updateData(Paciente entity, Paciente paciente) {
+
+        Consulta consulta = new Consulta();
+
         entity.setNomePaciente(paciente.getNomePaciente());
         entity.setSobrenomePaciente(paciente.getSobrenomePaciente());
         entity.setDataNascimentoPaciente(paciente.getDataNascimentoPaciente());
@@ -104,6 +95,10 @@ public class PacienteServices {
         entity.setEstado(paciente.getEstado());
         entity.setStatusPagamento(paciente.getStatusPagamento());
         entity.setIdadePaciente(paciente.getIdadePaciente());
+        consulta.setPaciente(findbyId(paciente.getIdPaciente()));
+        consulta.setDataConsultaAtual(consulta.getDataConsultaAtual());
+        consulta.setDataConsultaAntiga(consulta.getDataConsultaAntiga());
+        consulta.setDataConsultaAlterada(consulta.getDataConsultaAlterada());
     }
 
     public List<Integer> getAllPacienteIds() {

@@ -47,15 +47,10 @@ public class Paciente {
 
     @NotNull
     private String statusPagamento;
-    @Column(length = 10)
-    private String formaPagamento;
 
-    @NotNull
-    @Column(length = 10)
-    private String tipoConsulta;
-
-    private Integer mesesAcompanhado;
-
+    @ManyToOne
+    @JoinColumn(name = "id_agendamento")
+    private Agendamento agendamento;
 
     @Override
     public boolean equals(Object o) {
