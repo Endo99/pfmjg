@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/categorias")
@@ -34,7 +33,7 @@ public class CategoriaController {
     }
 
     @PostMapping(value = "/cadastrar-categoria")
-    public ResponseEntity<Categoria> insertPaciente(@RequestBody @Valid Categoria cat) {
+    public ResponseEntity<Categoria> insertCategoria(@RequestBody @Valid Categoria cat) {
         cat = categoriaServices.insertCategoria(cat);
         return ResponseEntity.ok().body(cat);
     }
@@ -49,14 +48,14 @@ public class CategoriaController {
 //    }
 
     @PutMapping(value = "/editar-categoria-{id}")
-    public ResponseEntity<Categoria> updatePaciente(@PathVariable Integer id, @RequestBody Categoria cat) {
+    public ResponseEntity<Categoria> updateCategoria(@PathVariable Integer id, @RequestBody Categoria cat) {
 
         cat = categoriaServices.updateCategoria(id, cat);
 
         return new ResponseEntity<Categoria>(cat, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/deletar-paciente-{id}")
+    @DeleteMapping(value = "/deletar-categoria-{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
         categoriaServices.deleteById(id);
         return ResponseEntity.noContent().build();

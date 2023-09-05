@@ -48,10 +48,7 @@ public class PacienteServices {
         System.out.println("Valor recebido para o campo cidade: " + paciente.getCidade());
         System.out.println("Valor recebido para o campo estado: " + paciente.getEstado());
         System.out.println("Valor recebido para o campo status: " + paciente.getStatusPagamento());
-        System.out.println("Valor recebido para o campo consulta: " + paciente.getTipoConsulta());
-        System.out.println("Valor recebido para o campo meses: " + paciente.getMesesAcompanhado());
         System.out.println("Valor recebido para o campo telefone: " + paciente.getTelefone());
-        System.out.println("Valor recebido para o campo formaPagamento: " + paciente.getFormaPagamento());
 
 //        Paciente paciente1 = pacienteRepository.save(paciente);
 //        int gerar = paciente1.getIdPaciente();
@@ -87,9 +84,6 @@ public class PacienteServices {
         entity.setNomePaciente(paciente.getNomePaciente());
         entity.setSobrenomePaciente(paciente.getSobrenomePaciente());
         entity.setDataNascimentoPaciente(paciente.getDataNascimentoPaciente());
-        entity.setMesesAcompanhado(paciente.getMesesAcompanhado());
-        entity.setFormaPagamento(paciente.getFormaPagamento());
-        entity.setTipoConsulta(paciente.getTipoConsulta());
         entity.setCidade(paciente.getCidade());
         entity.setTelefone(paciente.getTelefone());
         entity.setEstado(paciente.getEstado());

@@ -24,8 +24,8 @@ public class Consulta {
     private Paciente paciente;
 
     @ManyToOne
-    @JoinColumn(name = "id_agendamento")
-    private Agendamento agendamento;
+    @JoinColumn(name = "id_agenda")
+    private Agenda agenda;
 
     @NotNull
     private Date dataConsultaAtual;

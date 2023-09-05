@@ -32,6 +32,7 @@ public class Paciente {
     @NotNull
     private Date dataNascimentoPaciente;
 
+    @NotNull
     private Integer idadePaciente;
 
     @NotNull
@@ -49,8 +50,8 @@ public class Paciente {
     private String statusPagamento;
 
     @ManyToOne
-    @JoinColumn(name = "id_agendamento")
-    private Agendamento agendamento;
+    @JoinColumn(name = "id_agenda")
+    private Agenda agenda;
 
     @Override
     public boolean equals(Object o) {
