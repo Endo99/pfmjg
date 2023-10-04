@@ -1,11 +1,12 @@
-package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities;
+package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.consulta;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.agenda.Agenda;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,29 +18,25 @@ public class Consulta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_consulta")
     private Integer idConsulta;
 
-    @ManyToOne
-    @JoinColumn(name = "id_paciente")
-    private Paciente paciente;
 
+    @JsonBackReference    // Resto dos campos e mapeamentos
     @ManyToOne
-    @JoinColumn(name = "id_agenda")
+    @JoinColumn(name = "id_agenda", referencedColumnName = "id_agenda")
     private Agenda agenda;
 
     @NotNull
     private Date dataConsultaAtual;
-
-    private LocalDateTime dataConsultaAlterada;
-
-    private Date dataConsultaAntiga;
-
     @NotNull
     @Column(length = 10)
     private String tipoConsulta;
 
+    @NotNull
     @Column(length = 10)
     private String formaPagamento;
 
     private Integer mesesAcompanhado;
+
 }

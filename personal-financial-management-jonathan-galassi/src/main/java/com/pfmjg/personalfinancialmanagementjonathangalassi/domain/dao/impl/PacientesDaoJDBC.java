@@ -1,7 +1,7 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dao.impl;
 
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dao.PacientesDao;
-import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Paciente;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
 
 import java.sql.Connection;
 import java.util.Date;

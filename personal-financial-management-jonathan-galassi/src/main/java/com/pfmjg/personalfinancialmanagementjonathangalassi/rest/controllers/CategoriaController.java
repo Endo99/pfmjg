@@ -1,9 +1,7 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.rest.controllers;
 
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Categoria;
-import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Paciente;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.services.CategoriaServices;
-import com.pfmjg.personalfinancialmanagementjonathangalassi.services.PacienteServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,7 +45,7 @@ public class CategoriaController {
 //        return new ResponseEntity<List<String>>(pac, HttpStatus.CREATED);
 //    }
 
-    @PutMapping(value = "/editar-categoria-{id}")
+    @PutMapping(value = "/editar-categoria/{id}")
     public ResponseEntity<Categoria> updateCategoria(@PathVariable Integer id, @RequestBody Categoria cat) {
 
         cat = categoriaServices.updateCategoria(id, cat);
@@ -55,7 +53,7 @@ public class CategoriaController {
         return new ResponseEntity<Categoria>(cat, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/deletar-categoria-{id}")
+    @DeleteMapping(value = "/deletar-categoria/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
         categoriaServices.deleteById(id);
         return ResponseEntity.noContent().build();

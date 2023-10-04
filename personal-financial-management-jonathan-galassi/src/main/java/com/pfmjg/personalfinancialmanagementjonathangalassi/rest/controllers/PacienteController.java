@@ -1,6 +1,7 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.rest.controllers;
 
-import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Paciente;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.consulta.Consulta;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.services.PacienteServices;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ public class PacienteController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Paciente> finById(@PathVariable Integer id) {
         Paciente obj = pacienteServices.findbyId(id);
+
         return ResponseEntity.ok().body(obj);
     }
 
@@ -48,7 +50,7 @@ public class PacienteController {
         return new ResponseEntity<List<String>>(pac, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/editar-paciente/{id}")
+    @PutMapping(value = "/editar-consulta/{id}")
     public ResponseEntity<Paciente> updatePaciente(@PathVariable Integer id, @RequestBody Paciente pac) {
 
         pac = pacienteServices.updatePaciente(id, pac);

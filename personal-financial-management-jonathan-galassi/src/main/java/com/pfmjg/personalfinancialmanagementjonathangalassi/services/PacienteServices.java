@@ -1,7 +1,6 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.services;
 
-import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Consulta;
-import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Paciente;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -40,14 +39,14 @@ public class PacienteServices {
 
     public Paciente insertPaciente(Paciente paciente) {
 
+
+        System.out.println("Valor recebido para o campo idPaciente: " + paciente.getIdPaciente());
         System.out.println("Valor recebido para o campo idPaciente: " + paciente.getIdPaciente());
         System.out.println("Valor recebido para o campo nomePaciente: " + paciente.getNomePaciente());
-        System.out.println("Valor recebido para o campo sobrenomePaciente: " + paciente.getSobrenomePaciente());
         System.out.println("Valor recebido para o campo idadePaciente: " + paciente.getIdadePaciente());
         System.out.println("Valor recebido para o campo dataPaciente: " + paciente.getDataNascimentoPaciente());
         System.out.println("Valor recebido para o campo cidade: " + paciente.getCidade());
         System.out.println("Valor recebido para o campo estado: " + paciente.getEstado());
-        System.out.println("Valor recebido para o campo status: " + paciente.getStatusPagamento());
         System.out.println("Valor recebido para o campo telefone: " + paciente.getTelefone());
 
 //        Paciente paciente1 = pacienteRepository.save(paciente);
@@ -58,8 +57,7 @@ public class PacienteServices {
 //        if (verificarId(paciente.getIdPaciente())) {
 //            throw new IllegalArgumentException("O ID já existe");
 //        }
-        Paciente existPaciente = pacienteRepository.findByNomePacienteAndAndSobrenomePacienteAndDataNascimentoPaciente(paciente.getNomePaciente(),
-                    paciente.getSobrenomePaciente(), paciente.getDataNascimentoPaciente());
+        Paciente existPaciente = pacienteRepository.findByNomePacienteAndDataNascimentoPaciente(paciente.getNomePaciente(),  paciente.getDataNascimentoPaciente());
         if (existPaciente != null) {
             throw new DataIntegrityViolationException("Já existe esse usuário");
         }
@@ -70,29 +68,21 @@ public class PacienteServices {
         pacienteRepository.deleteById(id);
     }
 
-    public Paciente updatePaciente(Integer id, Paciente paciente) {
+    public Paciente updatePaciente(Integer idPaciente, Paciente paciente) {
 
-        Paciente entity = pacienteRepository.getReferenceById(id);
+        Paciente entity = pacienteRepository.getReferenceById(idPaciente);
         updateData(entity, paciente);
         return pacienteRepository.save(entity);
     }
 
     private void updateData(Paciente entity, Paciente paciente) {
 
-        Consulta consulta = new Consulta();
-
         entity.setNomePaciente(paciente.getNomePaciente());
-        entity.setSobrenomePaciente(paciente.getSobrenomePaciente());
         entity.setDataNascimentoPaciente(paciente.getDataNascimentoPaciente());
         entity.setCidade(paciente.getCidade());
         entity.setTelefone(paciente.getTelefone());
         entity.setEstado(paciente.getEstado());
-        entity.setStatusPagamento(paciente.getStatusPagamento());
         entity.setIdadePaciente(paciente.getIdadePaciente());
-        consulta.setPaciente(findbyId(paciente.getIdPaciente()));
-        consulta.setDataConsultaAtual(consulta.getDataConsultaAtual());
-        consulta.setDataConsultaAntiga(consulta.getDataConsultaAntiga());
-        consulta.setDataConsultaAlterada(consulta.getDataConsultaAlterada());
     }
 
     public List<Integer> getAllPacienteIds() {

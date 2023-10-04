@@ -1,4 +1,4 @@
-package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities;
+package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -12,22 +12,20 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 public class Paciente {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idPaciente")
-    //@Column(length = 40) // Colocar o tamanho da coluna;
+    @Column(name = "id_paciente")
     private Integer idPaciente;
 
+    @Column(unique = true)
     @NotNull
-    @Column(length = 300)
-    private String nomePaciente;
+    private String cpf;
 
-    @Column(length = 300)
     @NotNull
-    private String sobrenomePaciente;
+    private String nomePaciente;
 
     @NotNull
     private Date dataNascimentoPaciente;
@@ -45,13 +43,6 @@ public class Paciente {
     @Column(length = 20)
     @NotNull
     private String telefone;
-
-    @NotNull
-    private String statusPagamento;
-
-    @ManyToOne
-    @JoinColumn(name = "id_agenda")
-    private Agenda agenda;
 
     @Override
     public boolean equals(Object o) {

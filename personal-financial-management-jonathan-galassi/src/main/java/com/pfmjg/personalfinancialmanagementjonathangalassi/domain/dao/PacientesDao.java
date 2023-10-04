@@ -1,6 +1,6 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dao;
 
-import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Paciente;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;

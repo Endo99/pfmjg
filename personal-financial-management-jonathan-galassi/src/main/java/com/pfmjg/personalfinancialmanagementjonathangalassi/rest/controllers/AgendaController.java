@@ -1,7 +1,8 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.rest.controllers;
 
-import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.Agenda;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.agenda.Agenda;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.services.AgendaServices;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,8 +34,19 @@ public class AgendaController
 
     @PostMapping(value = "/cadastrar-agenda")
     public ResponseEntity<Agenda> insertAgendamento(@RequestBody @Valid Agenda agd) {
-        agd = agendaServices.insertAgendamento(agd);
-        return ResponseEntity.ok().body(agd);
+        try {
+            // Chame o serviço para criar a agenda associada ao paciente
+            Agenda novaAgenda = agendaServices.criarAgenda(agd.getIdPaciente().getIdPaciente(), agd);
+
+            // Retorne a nova agenda criada com o status 201 (Created)
+            return new ResponseEntity<>(novaAgenda, HttpStatus.CREATED);
+        } catch (EntityNotFoundException e) {
+            // Se o paciente não for encontrado, retorne um erro 404 (Not Found)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            // Em caso de qualquer outra exceção, retorne um erro 500 (Internal Server Error)
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 //    @GetMapping(value = "/nome-{nomePaciente}")
