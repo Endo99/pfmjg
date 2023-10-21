@@ -1,5 +1,7 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.repository;
 
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dto.BuscaCPFDTO;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.consulta.Consulta;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +26,16 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
     @Query(value = "select p.idPaciente from Paciente p")
     List<Integer> findAllId();
 
+    @Query("SELECT p FROM Paciente p WHERE p.cpf = :cpf and p.idPaciente = :idPaciente")
+    List<Paciente> findPacienteByCpfAndIdPaciente(@Param("cpf") String cpf, @Param("idPaciente") Integer idPaciente);
+    @Query("SELECT p.cpf FROM Paciente p")
+    List<String> findAllCpfs();
+
+    @Query("SELECT p.nomePaciente FROM Paciente p WHERE p.cpf = :cpf")
+    List<String> findNomesByCpf(@Param("cpf") String cpf);
+
+    @Query("SELECT new com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dto.BuscaCPFDTO(p.nomePaciente, p.cpf) FROM Paciente p")
+    List<BuscaCPFDTO> findAllCpfNomes();
 //    @Override
 //    boolean existsById(Integer integer);
 

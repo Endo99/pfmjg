@@ -1,7 +1,10 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.rest.controllers;
 
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.agenda.Agenda;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.consulta.Consulta;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.services.AgendaServices;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.services.ConsultaServices;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.services.PacienteServices;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,10 @@ import java.util.stream.Collectors;
 public class PacienteController {
     @Autowired
     private PacienteServices pacienteServices;
+    @Autowired
+    private ConsultaServices consultaServices;
+    @Autowired
+    private AgendaServices agendaServices;
 
     @GetMapping(value = "/listar")
     public ResponseEntity<List<Paciente>> findAll() {
@@ -50,7 +57,7 @@ public class PacienteController {
         return new ResponseEntity<List<String>>(pac, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/editar-consulta/{id}")
+    @PutMapping(value = "/editar-paciente/{id}")
     public ResponseEntity<Paciente> updatePaciente(@PathVariable Integer id, @RequestBody Paciente pac) {
 
         pac = pacienteServices.updatePaciente(id, pac);
@@ -71,5 +78,24 @@ public class PacienteController {
                 .map(Paciente::getIdPaciente)
                 .collect(Collectors.toList());
     }
+
+    @GetMapping("/agendas/{idPaciente}")
+    public ResponseEntity<List<Agenda>> getAgendasByPacienteId(@PathVariable Integer idPaciente) {
+        List<Agenda> agendas = agendaServices.findAgendasByPacienteId(idPaciente);
+        return ResponseEntity.ok(agendas);
+    }
+
+    @GetMapping("/consultas/{idPaciente}")
+    public ResponseEntity<List<Consulta>> getConsultasByPacienteId(@PathVariable Integer idPaciente) {
+        List<Consulta> consultas = consultaServices.findConsultasByPacienteId(idPaciente);
+        return ResponseEntity.ok(consultas);
+    }
+
+    @GetMapping("/listar-cpfs")
+    public ResponseEntity<List<String>> listarTodosOsCpfs() {
+        List<String> cpfs = pacienteServices.listarTodosOsCpfs();
+        return ResponseEntity.ok(cpfs);
+    }
+
 
 }

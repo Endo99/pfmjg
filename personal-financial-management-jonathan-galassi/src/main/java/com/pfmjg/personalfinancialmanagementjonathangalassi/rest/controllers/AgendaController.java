@@ -1,6 +1,8 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.rest.controllers;
 
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.agenda.Agenda;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.repository.PacienteRepository;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.services.AgendaServices;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -19,6 +21,8 @@ public class AgendaController
 
     @Autowired
     private AgendaServices agendaServices;
+    @Autowired
+    private PacienteRepository pacienteRepository;
 
     @GetMapping(value = "/listar")
     public ResponseEntity<List<Agenda>> findAll() {
@@ -35,16 +39,26 @@ public class AgendaController
     @PostMapping(value = "/cadastrar-agenda")
     public ResponseEntity<Agenda> insertAgendamento(@RequestBody @Valid Agenda agd) {
         try {
+            System.out.println(agd.getIdAgenda());
+            System.out.println(agd.getDataInicio());
+            System.out.println(agd.getPaciente().getIdPaciente());
+            System.out.println(agd.getPaciente().getNomePaciente());
+            System.out.println(agd.getPaciente().getCpf());
+            System.out.println(agd.getPaciente().getDataNascimentoPaciente());
+            System.out.println(agd.getPaciente().getIdadePaciente());
+            System.out.println(agd.getPaciente().getEstado());
+            System.out.println(agd.getPaciente().getCidade());
+            System.out.println(agd.getPaciente().getTelefone());
+            System.out.println(agd.getDescricao());
+            System.out.println(agd.getHorarioInicio());
+            System.out.println(agd.getHoraFinal());
+
             // Chame o serviço para criar a agenda associada ao paciente
-            Agenda novaAgenda = agendaServices.criarAgenda(agd.getIdPaciente().getIdPaciente(), agd);
+            Agenda novaAgenda = agendaServices.criarAgenda(agd.getPaciente().getIdPaciente(), agd);
 
             // Retorne a nova agenda criada com o status 201 (Created)
             return new ResponseEntity<>(novaAgenda, HttpStatus.CREATED);
-        } catch (EntityNotFoundException e) {
-            // Se o paciente não for encontrado, retorne um erro 404 (Not Found)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            // Em caso de qualquer outra exceção, retorne um erro 500 (Internal Server Error)
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -78,4 +92,10 @@ public class AgendaController
         return ResponseEntity.ok(agenda);
     }
 
+    @GetMapping("/paciente/{idAgenda}")
+    public ResponseEntity<Agenda> getPaciente(@PathVariable Integer idAgenda) {
+        Agenda agenda = agendaServices.getPaciente(idAgenda);
+
+        return ResponseEntity.ok(agenda);
+    }
 }

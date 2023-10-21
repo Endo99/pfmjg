@@ -3,7 +3,6 @@ package com.pfmjg.personalfinancialmanagementjonathangalassi.services;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.agenda.Agenda;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.repository.AgendaRepository;
-import com.pfmjg.personalfinancialmanagementjonathangalassi.repository.ConsultaRepository;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.repository.PacienteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,6 @@ public class AgendaServices {
     @Autowired
     private PacienteRepository pacienteRepository;
 
-    @Autowired
-    private ConsultaRepository consultaRepository;
 
     public AgendaServices() {
 
@@ -43,14 +40,14 @@ public class AgendaServices {
 
     public Agenda criarAgenda(Integer idPaciente, Agenda agenda) {
         System.out.println("Valor recebido para o campo idAgendamento: " + agenda.getIdAgenda());
-        System.out.println("Valor recebido para o campo idPaciente: " + agenda.getIdPaciente().getIdPaciente());
+        System.out.println("Valor recebido para o campo idPaciente: " + agenda.getPaciente().getIdPaciente());
 
         // Verifique se o paciente existe no banco de dados
         Paciente paciente = pacienteRepository.findById(idPaciente)
                 .orElseThrow(() -> new EntityNotFoundException("Paciente não encontrado com o ID: " + idPaciente));
 
         // Associe o paciente à agenda
-        agenda.setIdPaciente(paciente);
+        agenda.setPaciente(paciente);
 
         // Salve a agenda no banco de dados
         return agendaRepository.save(agenda);
@@ -65,7 +62,6 @@ public class AgendaServices {
 
         System.out.println("Valor recebido para o campo idAgendamento: " + id);
         System.out.println("Valor recebido para o campo idAgendamento: " + agenda.getIdAgenda());
-        System.out.println("Valor recebido para o campo Consulta: " + agenda.getConsultasAgendas());
 
         Agenda entity = agendaRepository.getReferenceById(id);
         updateData(entity, agenda);
@@ -77,7 +73,6 @@ public class AgendaServices {
         entity.setDescricao(agenda.getDescricao());
         entity.setHorarioInicio(agenda.getHorarioInicio());
         entity.setHoraFinal(agenda.getHoraFinal());
-        entity.setLembrete(agenda.getLembrete());
         entity.setObservacao(agenda.getObservacao());
 
     }
@@ -91,4 +86,13 @@ public class AgendaServices {
         return agendaRepository.findById(idConsulta)
                 .orElseThrow(() -> new EntityNotFoundException("Consulta não encontrado com o ID: " + idConsulta));
     }
+
+    public Agenda getPaciente(Integer idAgenda) {
+        return agendaRepository.findAgendamentoWithPacienteDetails(idAgenda);
+    }
+
+    public List<Agenda> findAgendasByPacienteId(Integer idPaciente) {
+        return agendaRepository.findByPacienteId(idPaciente);
+    }
+
 }

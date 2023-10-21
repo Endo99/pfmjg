@@ -1,24 +1,20 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dto;
 
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.agenda.Agenda;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.consulta.Consulta;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class ConsultaDTO {
+public class ConsultaCompletaDTO {
 
-    private Integer idConsulta;
-    private Date dataConsultaAtual;
-    private String tipoConsulta;
-    private String formaPagamento;
-    private Integer mesesAcompanhado;
-    private AgendaDTO agenda;
-    private PacienteDTO paciente;
+    private Consulta consulta;
+    private Agenda agenda;
+    private Paciente paciente;
 }

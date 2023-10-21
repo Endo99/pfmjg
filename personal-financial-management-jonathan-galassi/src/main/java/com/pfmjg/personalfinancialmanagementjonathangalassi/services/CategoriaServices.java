@@ -18,10 +18,6 @@ public class CategoriaServices {
 
     }
 
-    public boolean verificarId(Integer id) {
-        return categoriaRepository.existsById(id);
-    }
-
     public List<Categoria> findAll() {
         return categoriaRepository.findAll();
     }
@@ -29,6 +25,13 @@ public class CategoriaServices {
     public Categoria findbyId(Integer id) {
         Optional<Categoria> obj = categoriaRepository.findById(id);
         return obj.get();
+    }
+
+    public boolean verificarId(Integer id) {
+        if (id == null) {
+            return false;
+        }
+        return categoriaRepository.existsById(id);
     }
 
     public Categoria insertCategoria(Categoria categoria) {

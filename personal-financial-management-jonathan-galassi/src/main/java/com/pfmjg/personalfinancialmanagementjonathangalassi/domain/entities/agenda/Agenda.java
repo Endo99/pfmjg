@@ -26,17 +26,12 @@ public class Agenda {
     @Column(name = "id_agenda")
     private Integer idAgenda;
 
-    @ManyToOne(optional = false)
-    @JoinColumns({
-            @JoinColumn(name = "id_paciente", referencedColumnName = "id_paciente", nullable = false),
-    })
-    private Paciente idPaciente;
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "agenda")
-    private List<Consulta> consultasAgendas = new ArrayList<>();
+    @ManyToOne //OneToMany
+    @JoinColumn(name = "id_paciente")
+    private Paciente paciente;
 
     @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataInicio;
 
     @NotNull
@@ -47,9 +42,6 @@ public class Agenda {
 
     @NotNull
     private Time horaFinal;
-
-    @NotNull
-    private Integer lembrete; // Notificação do evento
 
     private String observacao;
 

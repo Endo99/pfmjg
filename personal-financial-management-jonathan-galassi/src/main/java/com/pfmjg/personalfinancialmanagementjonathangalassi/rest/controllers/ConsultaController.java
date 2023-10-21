@@ -1,8 +1,10 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.rest.controllers;
 
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dto.ConsultaCompletaDTO;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.agenda.Agenda;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.consulta.Consulta;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dto.ConsultaDTO;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.services.AgendaServices;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.services.ConsultaServices;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.services.PacienteServices;
@@ -13,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/consultas")
@@ -22,62 +26,55 @@ public class ConsultaController {
 
     @Autowired
     private ConsultaServices consultaServices;
-    @Autowired
-    private PacienteServices pacienteServices;
+//    @Autowired
+//    private PacienteServices pacienteServices;
     @Autowired
     private AgendaServices agendaServices;
 
     @GetMapping(value = "/listar")
     public ResponseEntity<List<Consulta>> findAll() {
-        List<Consulta> consultasList = consultaServices.findAll();
-        return ResponseEntity.ok().body(consultasList);
+            List<Consulta> consultaList = consultaServices.findAll();
+            return ResponseEntity.ok().body(consultaList);
     }
 
-    @GetMapping(value = "id/{id}")
-    public ResponseEntity<ConsultaDTO> findById(@PathVariable Integer id) {
-        ConsultaDTO consultaDTO = consultaServices.consultarPorId(id);
-        return ResponseEntity.ok(consultaDTO);
-    }
 
-    @PostMapping(value = "/cadastrar-consulta/{idAgenda}")
-    public ResponseEntity<Consulta> insertConsulta(@RequestBody @Valid Consulta cnslta,
-                                                   @RequestParam(name = "id") Integer idAgenda) {
+//    @PostMapping(value = "/cadastrar-consulta/{idPaciente}")
+//    public ResponseEntity<Consulta> insertConsulta(@RequestBody @Valid Consulta cnslta,
+//                                                   @RequestParam(name = "id") Integer idPaciente) {
+//
+//        try {
+//            // Busque a agenda correspondente ao ID
+//            Agenda agenda = agendaServices.findbyId(idAgenda);
+//
+//            // Verifique se a agenda foi encontrada
+//            if (agenda == null) {
+//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//            }
+//
+//            // Associe a consulta à agenda
+//
+//            // Salve a consulta no banco de dados
+//            Consulta novaConsulta = consultaServices.insertConsulta(idAgenda, cnslta);
+//
+//            // Adicione a consulta à lista de consultas da agenda
+//            agenda.getConsultasAgendas().add(novaConsulta);
+//
+//            // Atualize a agenda no banco de dados para refletir as mudanças na lista de consultas
+//            agendaServices.updateAgendamentoa(idAgenda, agenda);
+//
+//            return new ResponseEntity<>(novaConsulta, HttpStatus.CREATED);
+//        } catch (EntityNotFoundException e) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
+    @PostMapping(value = "/cadastrar-consulta/{idPaciente}")
+    public ResponseEntity<Consulta> cadConsulta(@RequestBody @Valid Consulta cnslta, @PathVariable @Valid Integer idPaciente) {
 
         try {
-            // Busque a agenda correspondente ao ID
-            Agenda agenda = agendaServices.findbyId(idAgenda);
-
-            // Verifique se a agenda foi encontrada
-            if (agenda == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-
-            // Associe a consulta à agenda
-            cnslta.setAgenda(agenda);
-
-            // Salve a consulta no banco de dados
-            Consulta novaConsulta = consultaServices.insertConsulta(idAgenda, cnslta);
-
-            // Adicione a consulta à lista de consultas da agenda
-            agenda.getConsultasAgendas().add(novaConsulta);
-
-            // Atualize a agenda no banco de dados para refletir as mudanças na lista de consultas
-            agendaServices.updateAgendamentoa(idAgenda, agenda);
-
-            return new ResponseEntity<>(novaConsulta, HttpStatus.CREATED);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PostMapping(value = "/cadastrar-consulta")
-    public ResponseEntity<Consulta> cadConsulta(@RequestBody @Valid Consulta cnslta) {
-
-        try {
-            Consulta novaConsulta = consultaServices.cadastrarConsulta(cnslta);
-
+            Consulta novaConsulta = consultaServices.insertConsulta(idPaciente, cnslta);
             return new ResponseEntity<>(novaConsulta, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -114,4 +111,11 @@ public class ConsultaController {
         return consultaServices.findConsultasByTipo(tipo);
     }
 
+    @GetMapping("/ids")
+    public List<Integer> getAllConsultaIds() {
+        List<Consulta> consultas = consultaServices.findAll();
+        return consultas.stream()
+                .map(Consulta::getIdConsulta)
+                .collect(Collectors.toList());
+    }
 }

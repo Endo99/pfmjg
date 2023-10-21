@@ -13,6 +13,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "cpf" }) })
 public class Paciente {
 
     @Id
@@ -20,7 +21,7 @@ public class Paciente {
     @Column(name = "id_paciente")
     private Integer idPaciente;
 
-    @Column(unique = true)
+    @Column(unique=true)
     @NotNull
     private String cpf;
 

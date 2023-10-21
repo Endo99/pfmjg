@@ -39,8 +39,6 @@ public class PacienteServices {
 
     public Paciente insertPaciente(Paciente paciente) {
 
-
-        System.out.println("Valor recebido para o campo idPaciente: " + paciente.getIdPaciente());
         System.out.println("Valor recebido para o campo idPaciente: " + paciente.getIdPaciente());
         System.out.println("Valor recebido para o campo nomePaciente: " + paciente.getNomePaciente());
         System.out.println("Valor recebido para o campo idadePaciente: " + paciente.getIdadePaciente());
@@ -88,6 +86,16 @@ public class PacienteServices {
     public List<Integer> getAllPacienteIds() {
         return pacienteRepository.findAllId();
     }
+
+    public List<Paciente> getCpfEIdPaciente(String cpf, Integer idPaciente) {
+        return pacienteRepository.findPacienteByCpfAndIdPaciente(cpf, idPaciente);
+    }
+
+    public List<String> listarTodosOsCpfs() {
+        return pacienteRepository.findAllCpfs();
+    }
+
+
 //    @PostMapping("/cadastrar")
 //    @Transactional
 //    @ResponseBody
