@@ -35,60 +35,13 @@ public class ConsultaServices {
         this.pacienteRepository = pacienteRepository;
     }
 
-    public boolean verificarId(Integer id) {
-        return consultaRepository.existsById(id);
-    }
-
     public List<Consulta> findAll() {
         return consultaRepository.findAll();
     }
 
-    public Consulta findbyId(Integer id) {
-        Optional<Consulta> obj = consultaRepository.findById(id);
-        return obj.get();
-    }
-
-//    public ConsultaDTO consultarPorId(Integer id) {
-//        System.out.println("Id consultaDTO:" + id);
-//        Consulta consulta = consultaRepository.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Consulta não encontrada com o ID: " + id));
-//
-//        // Mapeie a entidade para o DTO
-//        ConsultaDTO consultaDTO = modelMapper.map(consulta, ConsultaDTO.class);
-//
-//        // Mapeie informações da agenda
-//        Agenda agenda = consulta.getAgenda();
-//        AgendaDTO agendaDTO = modelMapper.map(agenda, AgendaDTO.class);
-//        consultaDTO.setAgenda(agendaDTO);
-//
-//        // Mapeie informações do paciente
-//        Paciente paciente = agenda.getIdPaciente();
-//        PacienteDTO pacienteDTO = modelMapper.map(paciente, PacienteDTO.class);
-//        consultaDTO.setPaciente(pacienteDTO);
-//
-//        return consultaDTO;
-//    }
 
     public List<Consulta> findConsultasByTipo(String tipo) {
         return consultaRepository.findByTipoConsulta(tipo);
-    }
-
-    public Consulta insertConsulta(Consulta consulta) {
-
-        System.out.println("Valor recebido para o campo idConsulta: " + consulta.getIdConsulta());
-
-
-        return consultaRepository.save(consulta);
-    }
-
-
-    public Consulta cadastrarConsulta(Consulta consulta) {
-
-        System.out.println("Valor recebido para o campo idConsulta: " + consulta.getIdConsulta());
-
-        return consultaRepository.save(consulta);
-
-
     }
 
     public Consulta insertConsulta(Integer idPaciente, Consulta consulta) {

@@ -31,6 +31,9 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
     @Query("SELECT p.cpf FROM Paciente p")
     List<String> findAllCpfs();
 
+    @Query("SELECT p FROM Paciente p WHERE p.cpf = :cpf")
+    Paciente findByCpf(@Param("cpf") String cpf);
+
     @Query("SELECT p.nomePaciente FROM Paciente p WHERE p.cpf = :cpf")
     List<String> findNomesByCpf(@Param("cpf") String cpf);
 

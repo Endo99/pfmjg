@@ -3,6 +3,8 @@ package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.age
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.config.CustomTimeDeserializer;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.consulta.Consulta;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
 import jakarta.persistence.*;
@@ -38,10 +40,10 @@ public class Agenda {
     private String descricao; // nome do evento
 
     @NotNull
-    private Time horarioInicio;
+    private String horarioInicio;
 
     @NotNull
-    private Time horaFinal;
+    private String horaFinal;
 
     private String observacao;
 

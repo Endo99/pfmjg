@@ -1,5 +1,6 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.services;
 
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dto.PacienteDTO;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +96,28 @@ public class PacienteServices {
         return pacienteRepository.findAllCpfs();
     }
 
+    public PacienteDTO getDetalhesDoPacientePorCPF(String cpf) {
+        // Implemente a lógica para buscar detalhes do paciente com base no CPF
+        Paciente paciente = pacienteRepository.findByCpf(cpf); // Substitua findByCpf pelo método real
+
+        if (paciente != null) {
+            // Mapeie os detalhes do paciente para um DTO
+            PacienteDTO pacienteDTO = new PacienteDTO();
+            pacienteDTO.setIdPaciente(paciente.getIdPaciente());
+            pacienteDTO.setNomePaciente(paciente.getNomePaciente());
+            pacienteDTO.setCpf(paciente.getCpf());
+            pacienteDTO.setDataNascimentoPaciente(paciente.getDataNascimentoPaciente());
+            pacienteDTO.setIdadePaciente(paciente.getIdadePaciente());
+            pacienteDTO.setCidade(paciente.getCidade());
+            pacienteDTO.setEstado(paciente.getEstado());
+            pacienteDTO.setTelefone(paciente.getTelefone());
+            // Mapeie outros campos conforme necessário
+
+            return pacienteDTO;
+        } else {
+            return null; // Ou lance uma exceção se o paciente não for encontrado
+        }
+    }
 
 //    @PostMapping("/cadastrar")
 //    @Transactional

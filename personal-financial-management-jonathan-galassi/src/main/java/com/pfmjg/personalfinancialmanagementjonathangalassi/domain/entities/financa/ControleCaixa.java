@@ -1,17 +1,20 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.financa;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.conta.Conta;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 public class ControleCaixa {
 
@@ -23,6 +26,13 @@ public class ControleCaixa {
     @JoinColumn(name = "id_paciente")
     private Paciente idPaciente;
 
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "controle_caixa_id_gastos",
+            joinColumns = @JoinColumn(name = "idControleCaixa"),
+            inverseJoinColumns = @JoinColumn(name = "idConta"))
+    private Set<Conta> contas = new HashSet<>();
+
     @NotNull
     private Date data;
 
@@ -31,10 +41,6 @@ public class ControleCaixa {
 
     @NotNull
     private Double preco;
-
-    private String categoria;
-
-    private  String status;
 
     @NotNull
     private String formaPagamento;

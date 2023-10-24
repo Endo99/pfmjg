@@ -1,5 +1,6 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.rest.controllers;
 
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dto.PacienteDTO;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.agenda.Agenda;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.consulta.Consulta;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
@@ -97,5 +98,14 @@ public class PacienteController {
         return ResponseEntity.ok(cpfs);
     }
 
+    @GetMapping("/detalhes/{cpf}")
+    public ResponseEntity<PacienteDTO> getDetalhesDoPacientePorCPF(@PathVariable String cpf) {
+        PacienteDTO pacienteDTO = pacienteServices.getDetalhesDoPacientePorCPF(cpf);
+        if (pacienteDTO != null) {
+            return ResponseEntity.ok(pacienteDTO);
+        } else {
+            return ResponseEntity.notFound().build(); // Ou outra resposta apropriada
+        }
+    }
 
 }

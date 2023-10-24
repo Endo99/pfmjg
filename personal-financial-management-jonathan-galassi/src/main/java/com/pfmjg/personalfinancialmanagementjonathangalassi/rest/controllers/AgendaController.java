@@ -86,9 +86,9 @@ public class AgendaController
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{idAgenda}")
-    public ResponseEntity<Agenda> getAgendamento(@PathVariable Integer idAgendamento) {
-        Agenda agenda = agendaServices.getAgendamentoById(idAgendamento);
+    @GetMapping("id/{idAgenda}")
+    public ResponseEntity<Agenda> getAgendamento(@PathVariable Integer idAgenda) {
+        Agenda agenda = agendaServices.getAgendamentoById(idAgenda);
         return ResponseEntity.ok(agenda);
     }
 

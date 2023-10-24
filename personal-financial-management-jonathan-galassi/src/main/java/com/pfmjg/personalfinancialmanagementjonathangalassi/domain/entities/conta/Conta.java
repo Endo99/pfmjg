@@ -1,23 +1,28 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.conta;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.financa.ControleCaixa;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 public class Conta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idConta;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "contas")
+    private Set<ControleCaixa> controleCaixa = new HashSet<>();
 
     @NotNull
     private Double saldoAtual;
