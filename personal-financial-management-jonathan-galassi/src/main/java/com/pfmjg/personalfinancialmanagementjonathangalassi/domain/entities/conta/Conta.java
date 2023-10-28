@@ -21,7 +21,7 @@ public class Conta {
     private Integer idConta;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "contas")
+    @ManyToMany(mappedBy = "contas", fetch = FetchType.LAZY)
     private Set<ControleCaixa> controleCaixa = new HashSet<>();
 
     @NotNull

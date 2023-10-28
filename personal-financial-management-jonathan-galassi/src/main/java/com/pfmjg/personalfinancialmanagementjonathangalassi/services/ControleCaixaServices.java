@@ -37,8 +37,6 @@ public class ControleCaixaServices {
         return controleCaixaRepository.findAll();
     }
 
-
-
     public ControleCaixa insertControleCaixa(Integer idConta, ControleCaixa controleCaixa ) {
         try {
             // Busque o paciente correspondente ao ID

@@ -27,7 +27,7 @@ public class ContaController {
         return ResponseEntity.ok().body(contas);
     }
 
-    @PostMapping("/inserir")
+    @PostMapping("/inserir/{idControleCaixa}")
     public ResponseEntity<Conta> insertConta(@PathVariable Integer idControleCaixa, @RequestBody Conta conta) {
         try {
             Conta novaConta = contaServices.insertConta(idControleCaixa, conta);

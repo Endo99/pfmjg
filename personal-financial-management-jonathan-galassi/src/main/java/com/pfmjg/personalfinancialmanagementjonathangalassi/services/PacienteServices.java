@@ -112,6 +112,14 @@ public class PacienteServices {
             pacienteDTO.setEstado(paciente.getEstado());
             pacienteDTO.setTelefone(paciente.getTelefone());
             // Mapeie outros campos conforme necessário
+            System.out.println(pacienteDTO.getIdPaciente());
+            System.out.println(pacienteDTO.getNomePaciente());
+            System.out.println(pacienteDTO.getCpf());;
+            System.out.println(pacienteDTO.getDataNascimentoPaciente());
+            System.out.println(pacienteDTO.getIdadePaciente());
+            System.out.println(pacienteDTO.getCidade());
+            System.out.println(pacienteDTO.getEstado());
+            System.out.println(pacienteDTO.getTelefone());
 
             return pacienteDTO;
         } else {

@@ -2,6 +2,7 @@ package com.pfmjg.personalfinancialmanagementjonathangalassi.rest.controllers;
 
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.financa.ControleCaixa;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.services.ControleCaixaServices;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,10 +39,20 @@ public class ControleCaixaController {
 //        return new ResponseEntity<>(novoControleCaixa, HttpStatus.CREATED);
 //    }
 
-    @PostMapping("/cadastrar")
-    public ResponseEntity<ControleCaixa> cadastrarControleCaixa(@RequestBody ControleCaixa controleCaixa) {
-        ControleCaixa novoControleCaixa = controleCaixaServices.cadastrarControleCaixa(controleCaixa);
-        return new ResponseEntity<>(novoControleCaixa, HttpStatus.CREATED);
+    @PostMapping("/associar")
+    public ResponseEntity<ControleCaixa> associarControleCaixaAConta(
+            @RequestParam("idConta") Integer idConta,
+            @RequestBody ControleCaixa controleCaixa) {
+        try {
+            ControleCaixa novoControleCaixa = controleCaixaServices.insertControleCaixa(idConta, controleCaixa);
+            return new ResponseEntity<>(novoControleCaixa, HttpStatus.CREATED);
+        } catch (EntityNotFoundException e) {
+            // Lide com a exceção de Conta não encontrada
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception ex) {
+            // Lide com outras exceções
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/editar/{id}")

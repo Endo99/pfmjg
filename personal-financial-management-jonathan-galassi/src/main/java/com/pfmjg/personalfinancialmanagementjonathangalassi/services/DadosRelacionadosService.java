@@ -38,9 +38,9 @@ public class DadosRelacionadosService {
 
             DadosRelacionadosDTO dados = new DadosRelacionadosDTO(
                     paciente.getNomePaciente(),
-                    consulta != null ? consulta.getTipoConsulta() : "N/A",
-                    consulta != null ? String.valueOf(consulta.getDataConsultaAtual()) : "N/A",
-                    agendamento != null ? String.valueOf(agendamento.getHorarioInicio()) : "N/A"
+                    consulta != null ? consulta.getTipoConsulta() : "Sem dados",
+                    consulta != null ? String.valueOf(consulta.getDataConsultaAtual()) : "Sem dados",
+                    agendamento != null ? String.valueOf(agendamento.getHorarioInicio()) : "Sem dados"
             );
 
             dadosRelacionados.add(dados);
@@ -52,4 +52,5 @@ public class DadosRelacionadosService {
     public List<BuscaCPFDTO> findAllCpfNomes() {
         return pacienteRepository.findAllCpfNomes();
     }
+
 }
