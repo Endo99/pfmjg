@@ -37,6 +37,7 @@ public class DadosRelacionadosService {
             Agenda agendamento = !agendamentos.isEmpty() ? agendamentos.get(0) : null;
 
             DadosRelacionadosDTO dados = new DadosRelacionadosDTO(
+                    paciente.getIdPaciente(),
                     paciente.getNomePaciente(),
                     consulta != null ? consulta.getTipoConsulta() : "Sem dados",
                     consulta != null ? String.valueOf(consulta.getDataConsultaAtual()) : "Sem dados",

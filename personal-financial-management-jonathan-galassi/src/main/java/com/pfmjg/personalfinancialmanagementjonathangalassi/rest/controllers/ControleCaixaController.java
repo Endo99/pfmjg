@@ -12,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/controles")
@@ -37,6 +39,19 @@ public class ControleCaixaController {
     public ResponseEntity<List<ControleCaixa>> listarAllControle() {
         List<ControleCaixa> controleCaixaList = controleCaixaRepository.findAll();
         return ResponseEntity.ok().body(controleCaixaList);
+    }
+
+    @GetMapping("/id/{idControle}")
+    public ResponseEntity<List<ControleCaixa>> getControleById(@PathVariable Integer idControle) {
+            Optional<ControleCaixa> controleCaixa = controleCaixaRepository.findById(idControle);
+
+            if (controleCaixa.isPresent()) {
+                List<ControleCaixa> controleCaixaList = new ArrayList<>();
+                controleCaixaList.add(controleCaixa.get());
+                return ResponseEntity.ok().body(controleCaixaList);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
     }
 
     @PostMapping("/associar/{idControleCaixa}/{idConta}")

@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class DadosRelacionadosDTO {
 
+    private Integer idPaciente;
     private String nomePaciente;
     private String tipoConsulta;
     private String dataConsulta;
