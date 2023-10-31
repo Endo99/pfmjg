@@ -25,5 +25,7 @@ public class Conta {
     private Set<ControleCaixa> controleCaixa = new HashSet<>();
 
     @NotNull
+    private String conta;
+    @NotNull
     private Double saldoAtual;
 }

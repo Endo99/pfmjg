@@ -1,5 +1,7 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.services;
 
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dto.AgendaDTO;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dto.PacienteDTO;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.agenda.Agenda;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.repository.AgendaRepository;
@@ -93,6 +95,33 @@ public class AgendaServices {
 
     public List<Agenda> findAgendasByPacienteId(Integer idPaciente) {
         return agendaRepository.findByPacienteId(idPaciente);
+    }
+
+    public AgendaDTO getDetalhesDaAgendaPorDescricao(String descricao) {
+        // Implemente a lógica para buscar detalhes do paciente com base no CPF
+        Agenda agenda = agendaRepository.findByDescription(descricao);
+
+        if (agenda != null) {
+            // Mapeie os detalhes do paciente para um DTO
+            AgendaDTO agendaDTO = new AgendaDTO();
+            agendaDTO.setDescricao(agenda.getDescricao());
+            agendaDTO.setObservacao(agenda.getObservacao());
+            agendaDTO.setDataInicio(agenda.getDataInicio());
+            agendaDTO.setHorarioInicio(agenda.getHorarioInicio());
+            agendaDTO.setHoraFinal(agenda.getHoraFinal());
+            agendaDTO.setPaciente(agenda.getPaciente());
+
+            System.out.println(agendaDTO.getDescricao());
+            System.out.println(agendaDTO.getObservacao());
+            System.out.println(agendaDTO.getHoraFinal());
+            System.out.println(agendaDTO.getHorarioInicio());
+            System.out.println(agendaDTO.getDataInicio());
+            System.out.println(agenda.getPaciente());
+
+            return agendaDTO;
+        } else {
+            return null; // Ou lance uma exceção se o paciente não for encontrado
+        }
     }
 
 }

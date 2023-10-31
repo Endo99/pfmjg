@@ -26,32 +26,6 @@ public class ContaServices {
     }
 
 
-    public Conta insertConta(Integer idControleCaixa, Conta conta ) {
-        try {
-            // Busque o paciente correspondente ao ID
-            ControleCaixa controleCaixa = controleCaixaRepository.findById(idControleCaixa)
-                    .orElseThrow(() -> new EntityNotFoundException("Controle não encontrado com o ID: " + idControleCaixa));
-
-            // Associe o paciente à consulta
-            controleCaixa.getContas().add(conta);
-
-            // Salve o ControleCaixa no banco de dados
-            controleCaixaRepository.save(controleCaixa);
-
-            // A seguir, você deve definir a relação inversa, associando o ControleCaixa à conta.
-            // Isso depende da estrutura do seu modelo de dados. Se a relação for bidirecional,
-            // você também deve configurar a conta no ControleCaixa.
-            conta.getControleCaixa().add(controleCaixa);
-
-            // Salve a consulta no banco de dados
-            return contaRepository.save(conta);
-        } catch (EntityNotFoundException e) {
-            throw e; // Você pode lançar a exceção novamente ou tratar de acordo com suas necessidades.
-        } catch (Exception exception) {
-            throw exception; // Trate outras exceções de acordo com suas necessidades.
-        }
-
-    }
 
     public Conta cadastrarConta(Conta conta) {
         // 1. Validação de dados (exemplo: verificando se o saldo é válido)
@@ -75,9 +49,28 @@ public class ContaServices {
     private void updateData(Conta entity, Conta conta) {
         entity.setControleCaixa(conta.getControleCaixa());
         entity.setSaldoAtual(conta.getSaldoAtual());
+        entity.setConta(conta.getConta());
     }
     public void deleteById(Integer id) {
         contaRepository.deleteById(id);
+    }
+
+    public Conta atualizarSaldo(Integer idConta, Integer idControleCaixa, Double novoSaldo) {
+        // Verifique se o ControleCaixa e a Conta associados existem
+        ControleCaixa controleCaixa = controleCaixaRepository.findById(idControleCaixa).orElse(null);
+        Conta conta = contaRepository.findById(idConta).orElse(null);
+
+        if (controleCaixa != null && conta != null) {
+            // Atualize o saldo da conta
+            conta.setSaldoAtual(novoSaldo);
+
+            // Salve a conta atualizada
+            conta = contaRepository.save(conta);
+
+            return conta;
+        } else {
+            throw new EntityNotFoundException("ControleCaixa ou Conta não encontrados.");
+        }
     }
 
 }

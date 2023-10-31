@@ -1,5 +1,6 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dto;
 
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,10 +17,10 @@ public class AgendaDTO {
 
     private Integer idAgenda;
     private Date dataInicio;
+    private Paciente paciente;
     private String descricao;
-    private Time horarioInicio;
-    private Time horaFinal;
-    private Integer lembrete;
+    private String horarioInicio;
+    private String horaFinal;
     private String observacao;
 
 }

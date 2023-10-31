@@ -32,7 +32,6 @@ public class Consulta {
     private String tipoConsulta;
 
     @NotNull
-    @Column(length = 10)
     private String formaPagamento;
 
 

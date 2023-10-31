@@ -23,14 +23,14 @@ public class ControleCaixa {
     private Integer idControleCaixa;
 
     @ManyToOne
-    @JoinColumn(name = "id_paciente")
+    @JoinColumn(name = "id_paciente", nullable = true)
     private Paciente idPaciente;
 
     @JsonIgnore
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "controle_caixa_id_gastos",
-            joinColumns = @JoinColumn(name = "idControleCaixa"),
-            inverseJoinColumns = @JoinColumn(name = "idConta"))
+            joinColumns = @JoinColumn(name = "id_ControleCaixa", nullable = true),
+            inverseJoinColumns = @JoinColumn(name = "id_Conta", nullable = true))
     private Set<Conta> contas = new HashSet<>();
 
     @NotNull
@@ -45,6 +45,12 @@ public class ControleCaixa {
     @NotNull
     private String formaPagamento;
 
-    private String lancamentoFuturo;
+    @Column(nullable = true)
+    private String categoria;
+
+    @NotNull
+    private String descricaoControle;
+
+    private Double saldoTotal;
 
 }

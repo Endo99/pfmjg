@@ -44,16 +44,10 @@ public class ConsultaServices {
         return consultaRepository.findByTipoConsulta(tipo);
     }
 
-    public Consulta insertConsulta(Integer idPaciente, Consulta consulta) {
+    public Consulta insertConsulta(Consulta consulta) {
         try {
-            // Busque o paciente correspondente ao ID
-            Paciente paciente = pacienteRepository.findById(idPaciente)
-                    .orElseThrow(() -> new EntityNotFoundException("Paciente não encontrado com o ID: " + idPaciente));
 
-            // Associe o paciente à consulta
-            consulta.setPaciente(paciente);
-
-            // Salve a consulta no banco de dados
+            // Salve a consulta no banco de dado
             return consultaRepository.save(consulta);
         } catch (EntityNotFoundException e) {
             throw e; // Você pode lançar a exceção novamente ou tratar de acordo com suas necessidades.
@@ -84,4 +78,6 @@ public class ConsultaServices {
     public List<Consulta> findConsultasByPacienteId(Integer idPaciente) {
         return consultaRepository.findByPacienteId(idPaciente);
     }
+
+
 }

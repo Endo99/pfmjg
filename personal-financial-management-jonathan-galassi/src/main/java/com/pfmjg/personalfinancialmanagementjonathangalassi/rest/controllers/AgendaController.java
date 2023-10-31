@@ -1,5 +1,7 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.rest.controllers;
 
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dto.AgendaDTO;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.dto.PacienteDTO;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.agenda.Agenda;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.paciente.Paciente;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.repository.PacienteRepository;
@@ -97,5 +99,15 @@ public class AgendaController
         Agenda agenda = agendaServices.getPaciente(idAgenda);
 
         return ResponseEntity.ok(agenda);
+    }
+
+    @GetMapping("/detalhes/{desc}")
+    public ResponseEntity<AgendaDTO> getDetalhesDaAgendaPorDesc(@PathVariable String desc) {
+        AgendaDTO agendaDTO = agendaServices.getDetalhesDaAgendaPorDescricao(desc);
+        if (agendaDTO != null) {
+            return ResponseEntity.ok(agendaDTO);
+        } else {
+            return ResponseEntity.notFound().build(); // Ou outra resposta apropriada
+        }
     }
 }

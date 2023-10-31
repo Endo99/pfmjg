@@ -1,6 +1,10 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.rest.controllers;
 
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.classes.AssociacaoRequest;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.conta.Conta;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.financa.ControleCaixa;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.repository.ContaRepository;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.repository.ControleCaixaRepository;
 import com.pfmjg.personalfinancialmanagementjonathangalassi.services.ControleCaixaServices;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +15,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/controles-caixas")
+@RequestMapping("/controles")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ControleCaixaController {
 
     @Autowired
     private ControleCaixaServices controleCaixaServices;
 
-    @GetMapping("/listar")
+    @Autowired
+    private ControleCaixaRepository controleCaixaRepository;
+    @Autowired
+    private ContaRepository contaRepository;
+
+    @GetMapping("/listar-with-account")
     public ResponseEntity<List<ControleCaixa>> listarControleCaixa() {
-        List<ControleCaixa> controleCaixaList = controleCaixaServices.findAll();
+        List<ControleCaixa> controleCaixaList = controleCaixaRepository.findAllWithContas();
+        return ResponseEntity.ok().body(controleCaixaList);
+    }
+
+    @GetMapping("/listar-todos")
+    public ResponseEntity<List<ControleCaixa>> listarAllControle() {
+        List<ControleCaixa> controleCaixaList = controleCaixaRepository.findAll();
         return ResponseEntity.ok().body(controleCaixaList);
     }
 
@@ -32,27 +47,38 @@ public class ControleCaixaController {
         return ResponseEntity.ok().build();
     }
 
-//    @PostMapping("/cadastrar}")
-//    public ResponseEntity<ControleCaixa> cadastrarControleCaixa(@PathVariable Integer idConta,
-//            @RequestBody ControleCaixa controleCaixa) {
-//        ControleCaixa novoControleCaixa = controleCaixaServices.insertControleCaixa(idConta, controleCaixa);
-//        return new ResponseEntity<>(novoControleCaixa, HttpStatus.CREATED);
-//    }
-
-    @PostMapping("/associar")
-    public ResponseEntity<ControleCaixa> associarControleCaixaAConta(
-            @RequestParam("idConta") Integer idConta,
+    @PostMapping("/cadastrar")
+    public ResponseEntity<ControleCaixa> cadastrarControleCaixa(
             @RequestBody ControleCaixa controleCaixa) {
-        try {
-            ControleCaixa novoControleCaixa = controleCaixaServices.insertControleCaixa(idConta, controleCaixa);
-            return new ResponseEntity<>(novoControleCaixa, HttpStatus.CREATED);
-        } catch (EntityNotFoundException e) {
-            // Lide com a exceção de Conta não encontrada
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception ex) {
-            // Lide com outras exceções
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        ControleCaixa novoControleCaixa = controleCaixaRepository.save(controleCaixa);
+
+        // Associar ControleCaixa às Contas
+        for (Conta conta : controleCaixa.getContas()) {
+            conta.getControleCaixa().add(novoControleCaixa);
+            contaRepository.save(conta);
         }
+
+        return ResponseEntity.ok(novoControleCaixa);
+    }
+
+    @PostMapping("/associar-conta")
+    public ResponseEntity<Void> associarControleCaixaAConta(@RequestBody AssociacaoRequest request) {
+        ControleCaixa controleCaixa = controleCaixaRepository.findById(request.getIdControleCaixa()).orElse(null);
+        List<Conta> contas = contaRepository.findAllById(request.getIdContas());
+
+        if (controleCaixa != null && !contas.isEmpty()) {
+            controleCaixa.getContas().addAll(contas);
+            for (Conta conta : contas) {
+                conta.getControleCaixa().add(controleCaixa);
+            }
+
+            controleCaixaRepository.save(controleCaixa);
+            contaRepository.saveAll(contas);
+
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/editar/{id}")

@@ -70,11 +70,11 @@ public class ConsultaController {
 //        }
 //    }
 
-    @PostMapping(value = "/cadastrar-consulta/{idPaciente}")
-    public ResponseEntity<Consulta> cadConsulta(@RequestBody @Valid Consulta cnslta, @PathVariable @Valid Integer idPaciente) {
+    @PostMapping(value = "/cadastrar-consulta")
+    public ResponseEntity<Consulta> cadConsulta(@RequestBody @Valid Consulta cnslta) {
 
         try {
-            Consulta novaConsulta = consultaServices.insertConsulta(idPaciente, cnslta);
+            Consulta novaConsulta = consultaServices.insertConsulta(cnslta);
             return new ResponseEntity<>(novaConsulta, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -1,9 +1,7 @@
 package com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.pfmjg.personalfinancialmanagementjonathangalassi.domain.entities.financa.ControleCaixa;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -18,6 +16,10 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCategoria;
+
+    @ManyToOne
+    @JoinColumn(name = "id_controle")
+    private ControleCaixa controleCaixa;
 
     @NotNull
     private String tipoCategoria;

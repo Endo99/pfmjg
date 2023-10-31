@@ -21,38 +21,33 @@ public class ControleCaixaServices {
     @Autowired
     private ContaRepository contaRepository;
 
+    @Autowired
+    private ContaServices contaServices;
+
     public void enrollControleCaixaInConta(Integer idControleCaixa, Integer idConta) {
         ControleCaixa controleCaixa = controleCaixaRepository.findById(idControleCaixa).orElse(null);
         Conta conta = contaRepository.findById(idConta).orElse(null);
 
         if (controleCaixa != null && conta != null) {
+
             controleCaixa.getContas().add(conta);
             conta.getControleCaixa().add(controleCaixa);
+
             controleCaixaRepository.save(controleCaixa);
             contaRepository.save(conta);
+
         }
+        updateControleCaixaa(controleCaixa.getIdControleCaixa(), controleCaixa);
+        contaServices.updateConta(conta.getIdConta(), conta);
     }
 
     public List<ControleCaixa> findAll() {
         return controleCaixaRepository.findAll();
     }
 
-    public ControleCaixa insertControleCaixa(Integer idConta, ControleCaixa controleCaixa ) {
+    public ControleCaixa insertControleCaixa(ControleCaixa controleCaixa ) {
         try {
-            // Busque o paciente correspondente ao ID
-            Conta conta = contaRepository.findById(idConta)
-                    .orElseThrow(() -> new EntityNotFoundException("Conta não encontrado com o ID: " + idConta));
-
-            // Associe o paciente à consulta
-            conta.getControleCaixa().add(controleCaixa);
-
-            // Salve o ControleCaixa no banco de dados
-            contaRepository.save(conta);
-
-            // A seguir, você deve definir a relação inversa, associando o ControleCaixa à conta.
-            // Isso depende da estrutura do seu modelo de dados. Se a relação for bidirecional,
-            // você também deve configurar a conta no ControleCaixa.
-            controleCaixa.getContas().add(conta);
+            // Busque o paciente correspondente ao ID*
 
             // Salve a consulta no banco de dados
             return controleCaixaRepository.save(controleCaixa);
@@ -89,6 +84,10 @@ public class ControleCaixaServices {
         entity.setProdutoOuCliente(controleCaixa.getProdutoOuCliente());
         entity.setPreco(controleCaixa.getPreco());
         entity.setFormaPagamento(controleCaixa.getFormaPagamento());
+        entity.setContas(controleCaixa.getContas());
+        entity.setIdPaciente(controleCaixa.getIdPaciente());
+        entity.setCategoria(controleCaixa.getCategoria());
+        entity.setDescricaoControle(controleCaixa.getDescricaoControle());
     }
 
 }
