@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/personal-financial-management-jonathan-galassi/personal-financial-management-jonathan-galassi.iml" filepath="$PROJECT_DIR$/personal-financial-management-jonathan-galassi/personal-financial-management-jonathan-galassi.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/pfmjg.iml" filepath="$PROJECT_DIR$/.idea/pfmjg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/personal-financial-management-jonathan-galassi/pfmjg.iml" filepath="$PROJECT_DIR$/personal-financial-management-jonathan-galassi/pfmjg.iml" />
     </modules>
   </component>
 </project>

@@ -7,16 +7,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="personal-financial-management-jonathan-galassi" />
+        <module name="pfmjg" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="personal-financial-management-jonathan-galassi" target="19" />
+      <module name="personal-financial-management-jonathan-galassi" target="17" />
+      <module name="pfmjg" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="personal-financial-management-jonathan-galassi" options="-parameters" />
+      <module name="pfmjg" options="-parameters" />
     </option>
   </component>
 </project>
