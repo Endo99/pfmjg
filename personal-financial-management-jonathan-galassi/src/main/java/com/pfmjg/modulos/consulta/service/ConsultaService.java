@@ -17,6 +17,8 @@ import com.pfmjg.modulos.consulta.repository.ConsultaRepository;
 import com.pfmjg.modulos.paciente.service.PacienteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -43,7 +45,7 @@ public class ConsultaService {
     }
 
     public List<ConsultaResponse> buscarTodos(ConsultaFiltros filtros) {
-        var consultas = (List<Consulta>) repository.findAll();
+        var consultas = (List<Consulta>) repository.findAll(filtros.toPredicate().build());
         return consultas.stream()
                 .map(ConsultaResponse::of)
                 .collect(Collectors.toList());
@@ -90,6 +92,15 @@ public class ConsultaService {
         consulta.setSituacao(ESituacaoConsulta.CANCELADA);
 
         repository.save(consulta);
+    }
+
+    public void cancelarVarios(ConsultaFiltros filtros) {
+        var consultas = findAll(filtros);
+
+        if (!consultas.isEmpty()) {
+            consultas.forEach(consulta -> consulta.setSituacao(ESituacaoConsulta.CANCELADA));
+            repository.saveAll(consultas);
+        }
     }
 
     public void atribuirFalta() {
@@ -149,5 +160,9 @@ public class ConsultaService {
         if (horariosLivres == null || horariosLivres.stream().noneMatch(h -> h.equals(hora))) {
             throw new ValidacaoException("Agenda não está disponível nesse horário");
         }
+    }
+
+    private List<Consulta> findAll(ConsultaFiltros filtros) {
+        return (List<Consulta>) repository.findAll(filtros.toPredicate().build());
     }
 }

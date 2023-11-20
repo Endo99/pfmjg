@@ -22,11 +22,14 @@ public record ConsultaResponse(
         LocalTime periodo,
         ESituacaoConsulta situacao,
         String pacienteNome,
-        String agendaNutricionista
+        String agendaNutricionista,
+        Integer pacienteId,
+        Integer agendaNutricionistaId
 ) {
     public static ConsultaResponse of(Consulta consulta) {
         return new ConsultaResponse(consulta.getId(), consulta.getData(), consulta.getHoraInicial(), consulta.getHoraFinal(),
                 calcularDiferenca(consulta.getHoraInicial(), consulta.getHoraFinal()), consulta.getSituacao(),
-                consulta.getPaciente().getNome(), consulta.getAgenda().getNutricionista().getNome());
+                consulta.getPaciente().getNome(), consulta.getAgenda().getNutricionista().getNome(),
+                consulta.getPaciente().getId(), consulta.getAgenda().getNutricionista().getId());
     }
 }

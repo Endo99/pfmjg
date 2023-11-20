@@ -21,10 +21,12 @@ public record AgendaResponse(
         @TimePattern
         LocalTime tempoPadrao,
         ESituacao situacao,
-        String nutricionistaNome
+        String nutricionistaNome,
+        Integer nutricionistaId
 ) {
     public static AgendaResponse of(Agenda agenda) {
         return new AgendaResponse(agenda.getId(), agenda.getDataInicial(), agenda.getDataFinal(), agenda.getHoraDiaInicial(),
-                agenda.getHoraDiaFinal(), agenda.getTempoPadrao(), agenda.getSituacao(), agenda.getNutricionista().getNome());
+                agenda.getHoraDiaFinal(), agenda.getTempoPadrao(), agenda.getSituacao(), agenda.getNutricionista().getNome(),
+                agenda.getNutricionista().getId());
     }
 }

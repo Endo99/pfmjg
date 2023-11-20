@@ -14,7 +14,6 @@ public record AgendaFiltros(
         ESituacao situacao,
         Integer nutricionistaId
 ) {
-
     public AgendaPredicate toPredicate() {
         return new AgendaPredicate()
                 .comAgendaId(id)

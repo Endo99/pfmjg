@@ -7,11 +7,15 @@ import com.pfmjg.modulos.agenda.model.Agenda;
 import com.pfmjg.modulos.agenda.repository.AgendaRepository;
 import com.pfmjg.modulos.comum.enums.ESituacao;
 import com.pfmjg.modulos.comum.exception.NotFoundException;
+import com.pfmjg.modulos.consulta.dto.ConsultaFiltros;
+import com.pfmjg.modulos.consulta.service.ConsultaService;
 import com.pfmjg.modulos.nutricionista.service.NutricionistaService;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,6 +34,10 @@ public class AgendaService {
 
     private final AgendaRepository repository;
     private final NutricionistaService nutricionistaService;
+
+    @Lazy
+    @Autowired
+    private ConsultaService consultaService;
 
     public Agenda buscarPorId(Integer id) {
         return repository.findById(id)
@@ -72,8 +80,22 @@ public class AgendaService {
     public void inativar(Integer id) {
         var agenda = buscarPorId(id);
         agenda.setSituacao(ESituacao.INATIVO);
+        cancelarConsultas(agenda.getId());
 
         repository.save(agenda);
+    }
+
+    public void inativarPorNutricionista(Integer nutricionistaId) {
+        var filtros = new AgendaFiltros(null, null, null, nutricionistaId);
+        var agendas = findAll(filtros);
+
+        if (!agendas.isEmpty()) {
+            agendas.forEach(agenda -> {
+                agenda.setSituacao(ESituacao.INATIVO);
+                cancelarConsultas(agenda.getId());
+            });
+            repository.saveAll(agendas);
+        }
     }
 
     public Tuple buscarDiasComAgenda(Predicate predicate) {
@@ -90,5 +112,15 @@ public class AgendaService {
         validarPeriodoInicialMenorFinal(dataInicial, dataFinal);
         validarHorarioEPeriodoAtual(horaInicial, dataInicial);
         validarHoraPeriodoInicialMenorFinal(horaInicial, horaFinal);
+    }
+
+    private List<Agenda> findAll(AgendaFiltros filtros) {
+        return (List<Agenda>) repository.findAll(filtros.toPredicate().build());
+    }
+
+    private void cancelarConsultas(Integer agendaId) {
+        var filtro = new ConsultaFiltros(null, null, null, List.of(agendaId));
+
+        consultaService.cancelarVarios(filtro);
     }
 }

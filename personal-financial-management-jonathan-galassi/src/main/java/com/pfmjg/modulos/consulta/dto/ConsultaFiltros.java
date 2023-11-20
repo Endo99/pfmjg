@@ -12,7 +12,6 @@ public record ConsultaFiltros(
         List<Integer> pacientesIds,
         List<Integer> agendasIds
 ) {
-
     public ConsultaPredicate toPredicate() {
         return new ConsultaPredicate()
                 .comData(data)

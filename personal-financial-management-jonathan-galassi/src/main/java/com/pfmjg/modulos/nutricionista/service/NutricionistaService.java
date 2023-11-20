@@ -1,5 +1,6 @@
 package com.pfmjg.modulos.nutricionista.service;
 
+import com.pfmjg.modulos.agenda.service.AgendaService;
 import com.pfmjg.modulos.categoria.service.CategoriaService;
 import com.pfmjg.modulos.comum.enums.ESituacao;
 import com.pfmjg.modulos.comum.exception.NotFoundException;
@@ -9,8 +10,11 @@ import com.pfmjg.modulos.nutricionista.dto.NutricionistaRequest;
 import com.pfmjg.modulos.nutricionista.dto.NutricionistaResponse;
 import com.pfmjg.modulos.nutricionista.model.Nutricionista;
 import com.pfmjg.modulos.nutricionista.repository.NutricionistaRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +28,10 @@ public class NutricionistaService {
 
     private final NutricionistaRepository repository;
     private final CategoriaService categoriaService;
+
+    @Lazy
+    @Autowired
+    private AgendaService agendaService;
 
     public Nutricionista buscarPorId(Integer id) {
         return repository.findById(id)
@@ -63,10 +71,11 @@ public class NutricionistaService {
         repository.save(nutricionista);
     }
 
+    @Transactional
     public void inativar(Integer id) {
         var nutricionista = buscarPorId(id);
         nutricionista.setSituacao(ESituacao.INATIVO);
-
+        inativarAgendas(nutricionista.getId());
         repository.save(nutricionista);
     }
 
@@ -80,5 +89,9 @@ public class NutricionistaService {
         if (repository.existsByCpfAndIdNot(removerCaracteresNaoNumericos(cpf), id)) {
             throw new ValidacaoException("Nutricionista já cadastrado com esse cpf");
         }
+    }
+
+    private void inativarAgendas(Integer nutricionistaId) {
+        agendaService.inativarPorNutricionista(nutricionistaId);
     }
 }

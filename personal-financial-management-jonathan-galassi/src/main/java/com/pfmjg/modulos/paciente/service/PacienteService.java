@@ -3,13 +3,18 @@ package com.pfmjg.modulos.paciente.service;
 import com.pfmjg.modulos.comum.enums.ESituacao;
 import com.pfmjg.modulos.comum.exception.NotFoundException;
 import com.pfmjg.modulos.comum.exception.ValidacaoException;
+import com.pfmjg.modulos.consulta.dto.ConsultaFiltros;
+import com.pfmjg.modulos.consulta.service.ConsultaService;
 import com.pfmjg.modulos.paciente.dto.PacienteFiltros;
 import com.pfmjg.modulos.paciente.dto.PacienteRequest;
 import com.pfmjg.modulos.paciente.dto.PacienteResponse;
 import com.pfmjg.modulos.paciente.model.Paciente;
 import com.pfmjg.modulos.paciente.repository.PacienteRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +28,9 @@ import static com.pfmjg.modulos.comum.util.StringUtil.removerCaracteresNaoNumeri
 public class PacienteService {
 
     private final PacienteRepository repository;
+    @Lazy
+    @Autowired
+    private ConsultaService consultaService;
 
     public Paciente buscarPorId(Integer id) {
         return repository.findById(id)
@@ -62,10 +70,11 @@ public class PacienteService {
         repository.save(paciente);
     }
 
+    @Transactional
     public void inativar(Integer id) {
         var paciente = buscarPorId(id);
         paciente.setSituacao(ESituacao.INATIVO);
-
+        inativarConsultas(paciente.getId());
         repository.save(paciente);
     }
 
@@ -79,5 +88,10 @@ public class PacienteService {
         if (repository.existsByCpfAndIdNot(removerCaracteresNaoNumericos(cpf), id)) {
             throw new ValidacaoException("Paciente já cadastrado com esse cpf");
         }
+    }
+
+    private void inativarConsultas(Integer pacienteId) {
+        var filtro = new ConsultaFiltros(null, null, List.of(pacienteId), null);
+        consultaService.cancelarVarios(filtro);
     }
 }

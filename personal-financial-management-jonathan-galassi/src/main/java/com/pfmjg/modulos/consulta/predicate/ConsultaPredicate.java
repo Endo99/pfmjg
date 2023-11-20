@@ -26,21 +26,21 @@ public class ConsultaPredicate extends PredicateBase {
     }
 
     public ConsultaPredicate comSituacoes(List<ESituacaoConsulta> situacoes) {
-        if (situacoes.isEmpty()) {
+        if (situacoes != null && !situacoes.isEmpty()) {
             builder.and(consulta.situacao.in(situacoes));
         }
         return this;
     }
 
     public ConsultaPredicate comPacientesIds(List<Integer> pacientesIds) {
-        if (pacientesIds.isEmpty()) {
+        if (Objects.nonNull(pacientesIds) && !pacientesIds.isEmpty()) {
             builder.and(consulta.paciente.id.in(pacientesIds));
         }
         return this;
     }
 
     public ConsultaPredicate comAgendasIds(List<Integer> agendasIds) {
-        if (agendasIds.isEmpty()) {
+        if (Objects.nonNull(agendasIds) && !agendasIds.isEmpty()) {
             builder.and(consulta.agenda.id.in(agendasIds));
         }
         return this;
