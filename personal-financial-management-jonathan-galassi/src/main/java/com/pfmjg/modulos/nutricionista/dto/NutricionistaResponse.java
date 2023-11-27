@@ -16,7 +16,8 @@ public record NutricionistaResponse(
         String descricao,
         String telefone,
         ESituacao situacao,
-        List<String> categoriasDescricao
+        List<String> categoriasDescricao,
+        List<Categoria> categorias
 ) {
 
     public static NutricionistaResponse of(Nutricionista nutricionista) {
@@ -32,7 +33,8 @@ public record NutricionistaResponse(
                 nutricionista.getDescricao(),
                 adicionarMascaraTelefone(nutricionista.getTelefone()),
                 nutricionista.getSituacao(),
-                categoriaDescricao
+                categoriaDescricao,
+                nutricionista.getCategorias()
         );
     }
 }

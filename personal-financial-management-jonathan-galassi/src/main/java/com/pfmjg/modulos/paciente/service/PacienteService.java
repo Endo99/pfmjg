@@ -91,7 +91,8 @@ public class PacienteService {
     }
 
     private void inativarConsultas(Integer pacienteId) {
-        var filtro = new ConsultaFiltros(null, null, List.of(pacienteId), null);
+        var filtro = new ConsultaFiltros(null, null, null,
+                null, List.of(pacienteId), null);
         consultaService.cancelarVarios(filtro);
     }
 }

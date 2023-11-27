@@ -94,6 +94,13 @@ public class ConsultaService {
         repository.save(consulta);
     }
 
+    public void agendar(Integer id) {
+        var consulta = buscarPorId(id);
+        consulta.setSituacao(ESituacaoConsulta.AGENDADO);
+
+        repository.save(consulta);
+    }
+
     public void cancelarVarios(ConsultaFiltros filtros) {
         var consultas = findAll(filtros);
 
@@ -129,7 +136,7 @@ public class ConsultaService {
 
     public List<LocalDate> diasComAgenda() {
         var agendaPredicate = new AgendaPredicate();
-        var predicate = agendaPredicate.comSituacao(ESituacao.ATIVO).comData().build();
+        var predicate = agendaPredicate.comSituacao(List.of(ESituacao.ATIVO)).comData().build();
         var result = agendaService.buscarDiasComAgenda(predicate);
         return diasAgenda(result.get(0, LocalDate.class),
                 Objects.requireNonNull(result.get(1, LocalDate.class)));

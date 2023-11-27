@@ -119,7 +119,8 @@ public class AgendaService {
     }
 
     private void cancelarConsultas(Integer agendaId) {
-        var filtro = new ConsultaFiltros(null, null, null, List.of(agendaId));
+        var filtro = new ConsultaFiltros(null, null, null, null, null,
+                List.of(agendaId));
 
         consultaService.cancelarVarios(filtro);
     }

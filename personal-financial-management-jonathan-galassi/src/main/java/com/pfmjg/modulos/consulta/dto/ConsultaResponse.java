@@ -24,12 +24,12 @@ public record ConsultaResponse(
         String pacienteNome,
         String agendaNutricionista,
         Integer pacienteId,
-        Integer agendaNutricionistaId
+        Integer agendaId
 ) {
     public static ConsultaResponse of(Consulta consulta) {
         return new ConsultaResponse(consulta.getId(), consulta.getData(), consulta.getHoraInicial(), consulta.getHoraFinal(),
                 calcularDiferenca(consulta.getHoraInicial(), consulta.getHoraFinal()), consulta.getSituacao(),
                 consulta.getPaciente().getNome(), consulta.getAgenda().getNutricionista().getNome(),
-                consulta.getPaciente().getId(), consulta.getAgenda().getNutricionista().getId());
+                consulta.getPaciente().getId(), consulta.getAgenda().getId());
     }
 }

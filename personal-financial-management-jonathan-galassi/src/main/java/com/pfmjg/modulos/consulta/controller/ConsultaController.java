@@ -57,6 +57,11 @@ public class ConsultaController {
         service.cancelar(id);
     }
 
+    @PutMapping("/{id}/agendar")
+    public void agendar(@PathVariable Integer id) {
+        service.agendar(id);
+    }
+
     @GetMapping("/dias-agenda")
     public List<LocalDate> diasAgenda() {
         return service.diasComAgenda();

@@ -3,14 +3,17 @@ package com.pfmjg.modulos.nutricionista.predicate;
 import com.pfmjg.infra.PredicateBase;
 import com.pfmjg.modulos.comum.enums.ESituacao;
 
+import java.util.List;
+
 import static com.pfmjg.modulos.nutricionista.model.QNutricionista.nutricionista;
+import static com.pfmjg.modulos.paciente.model.QPaciente.paciente;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class NutricionistaPredicate extends PredicateBase {
 
-    public NutricionistaPredicate comSituacao(ESituacao situacao) {
-        if (situacao != null) {
-            builder.and(nutricionista.situacao.eq(situacao));
+    public NutricionistaPredicate comSituacoes(List<ESituacao> situacoes) {
+        if (situacoes != null && !situacoes.isEmpty()) {
+            builder.and(nutricionista.situacao.in(situacoes));
         }
         return this;
     }
