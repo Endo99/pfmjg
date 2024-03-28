@@ -25,6 +25,13 @@ public class AgendaPredicate extends PredicateBase {
         return this;
     }
 
+    public AgendaPredicate comSituacaoNutri(ESituacao situacao) {
+        if (situacao != null) {
+            builder.and(agenda.nutricionista.situacao.eq(situacao));
+        }
+        return this;
+    }
+
     public AgendaPredicate comNutricionistaId(Integer nutricionistaId) {
         if (Objects.nonNull(nutricionistaId)) {
             builder.and(agenda.nutricionista.id.eq(nutricionistaId));

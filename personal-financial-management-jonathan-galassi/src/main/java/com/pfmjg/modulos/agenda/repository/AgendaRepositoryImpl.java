@@ -24,8 +24,8 @@ public class AgendaRepositoryImpl implements AgendaRepositoryCustom {
     public List<Agenda> buscarAgendasPorData(LocalDate data) {
         return new JPAQueryFactory(entityManager)
                 .selectFrom(agenda)
-                .where(agenda.dataInicial.before(data)
-                        .and(agenda.dataFinal.after(data))
+                .where(agenda.dataInicial.before(data.plusDays(1))
+                        .and(agenda.dataFinal.after(data.plusDays(-1)))
                         .and(agenda.situacao.eq(ESituacao.ATIVO)))
                 .fetch();
     }

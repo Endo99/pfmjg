@@ -136,7 +136,9 @@ public class ConsultaService {
 
     public List<LocalDate> diasComAgenda() {
         var agendaPredicate = new AgendaPredicate();
-        var predicate = agendaPredicate.comSituacao(List.of(ESituacao.ATIVO)).comData().build();
+        var predicate = agendaPredicate.comSituacao(List.of(ESituacao.ATIVO))
+                .comSituacaoNutri(ESituacao.ATIVO)
+                .comData().build();
         var result = agendaService.buscarDiasComAgenda(predicate);
         return diasAgenda(result.get(0, LocalDate.class),
                 Objects.requireNonNull(result.get(1, LocalDate.class)));
